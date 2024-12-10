@@ -59,6 +59,44 @@ orgs.newOrg('eclipse-score') {
         "score"
       ],
       web_commit_signoff_required: false,
-    }
+    },
+
+    orgs.newRepo('inc_feo') {
+      description: "Incubation repository for the fixed execution order framework",
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      delete_branch_on_merge: false,
+      homepage: "https://eclipse-score.github.io/inc_feo",
+      web_commit_signoff_required: no,
+    },
+    orgs.newRepo('inc_mw_com') {
+      description: "Incubation repository for interprocess communication framework",
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      delete_branch_on_merge: false,
+      homepage: "https://eclipse-score.github.io/inc_mw_com",
+      web_commit_signoff_required: no,
+    },
+    orgs.newRepo('inc_mw_log') {
+      description: "Incubation repository for logging framework",
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      delete_branch_on_merge: false,
+      homepage: "https://eclipse-score.github.io/inc_mw_log",
+      web_commit_signoff_required: no,
+    },
+    orgs.newRepo('inc_mw_per') {
+      description: "Incubation repository for persistency framework",
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      delete_branch_on_merge: false,
+      homepage: "https://eclipse-score.github.io/inc_mw_per",
+      web_commit_signoff_required: no,
+    },
+
   ],
 }
