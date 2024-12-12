@@ -4,6 +4,7 @@ orgs.newOrg('eclipse-score') {
   settings+: {
     has_discussions: true,
     discussion_source_repository: "eclipse-score/score",
+    members_can_create_teams: true,
     workflows+: {
       actions_can_approve_pull_request_reviews: false,
     },
