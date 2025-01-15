@@ -317,6 +317,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       topics+: [
         "score"
       ],
+      workflows: {
+        # Allow actions to publish documentation from pull requests.
+        # Note: 'default' is also the 'maximum', it cannot be elevated by actions unless the default is 'write'.
+        default_workflow_permissions: "write",
+      },
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
