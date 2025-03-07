@@ -118,7 +118,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
   ],
   _repositories+:: [
-    orgs.newRepo('demo-repo') cppRustTemplate.repositories["cpp-rust-template-repository"] {
+    orgs.newRepo('demo-repo') with cppRustTemplate.repositories["cpp-rust-template-repository"] {
       description: "Instance of C++ & Rust Bazel Template Repository",
     },
   ],    
