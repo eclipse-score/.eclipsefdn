@@ -1,4 +1,6 @@
 local orgs = import 'vendor/otterdog-defaults/otterdog-defaults.libsonnet';
+local cppRustTemplate = import 'otterdog/cpp-rust-template-repository.jsonnet';
+
 
 orgs.newOrg('automotive.score', 'eclipse-score') {
   settings+: {
@@ -116,6 +118,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
   ],
   _repositories+:: [
+    orgs.newRepo('demo-repo') cppRustTemplate.repositories["cpp-rust-template-repository"] {
+      description: "Instance of C++ & Rust Bazel Template Repository",
+    },
+  ],    
     orgs.newRepo('.github') {
     },
     orgs.newRepo('bazel_registry') {
