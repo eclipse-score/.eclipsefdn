@@ -1,5 +1,5 @@
 local orgs = import 'vendor/otterdog-defaults/otterdog-defaults.libsonnet';
-local cppRustTemplate = import 'otterdog/cpp-rust-template-repository.jsonnet';
+local cppRustTemplate = import './otterdog/cpp-rust-template-repository.jsonnet';
 
 
 orgs.newOrg('automotive.score', 'eclipse-score') {
