@@ -451,9 +451,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
     orgs.newRepo('baselibs') {
-      allow_merge_commit: true,
+      allow_merge_commit: false,
       allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
+      code_scanning_default_setup_enabled: false,
       description: "base libraries including common functionality",
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -465,13 +465,21 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             required_approving_review_count: 1,
             requires_code_owner_review: true,
           },
+          bypass_actors+: [
+            "castler",
+            "hoe-jo",
+            "LittleHuba",
+            "ramceb"
+          ],
+          allows_force_pushes: false,
+          requires_linear_history: true,
         },
       ],
     },
     orgs.newRepo('communication') {
-      allow_merge_commit: true,
+      allow_merge_commit: false,
       allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
+      code_scanning_default_setup_enabled: false,
       description: "Repository for the communication module LoLa",
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -483,6 +491,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             required_approving_review_count: 1,
             requires_code_owner_review: true,
           },
+          bypass_actors+: [
+            "castler",
+            "hoe-jo",
+            "LittleHuba"
+          ],
+          allows_force_pushes: false,
+          requires_linear_history: true,
         },
       ],
     },
