@@ -644,5 +644,27 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
+    orgs.newRepo('nlohmann-json') {
+      allow_merge_commit: false,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: false,
+      description: "Repository for the Nlohmann JSON Parser",
+      forked_repository: "https://github.com/nlohmann/json",
+      fork_default_branch_only: true,
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: {
+            dismisses_stale_reviews: true,
+            required_approving_review_count: 1,
+            requires_code_owner_review: true,
+          },
+          allows_force_pushes: false,
+          requires_linear_history: true,
+        },
+      ],
+    },
   ],
 }
