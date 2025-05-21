@@ -228,6 +228,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
       code_scanning_default_languages+: [
+        "actions",
         "python"
       ],
       description: "Score project bazel modules registry",
@@ -280,6 +281,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "actions",
+      ],
       description: "Incubation repository for the fixed execution order framework",
       homepage: "https://eclipse-score.github.io/inc_feo",
       rulesets: [
@@ -418,6 +422,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "python"
+      ],
       description: "Score project process description",
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/process_description",
@@ -464,7 +471,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_languages+: [
-        "python"
+        "actions",
       ],
       code_scanning_default_setup_enabled: true,
       description: "Score project main repository",
@@ -642,6 +649,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "actions",
+      ],
       description: "C++ & Rust Bazel Template Repository",
       is_template: true,  // Enable template repository functionality
       rulesets: [
@@ -657,21 +667,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
-      description: "Reusable GitHub Actions workflows for CI/CD automation",
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
+      code_scanning_default_languages+: [
+        "actions",
       ],
-    },
-    orgs.newRepo('process') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      description: "Score process and docs-as-code repository",
+      description: "Reusable GitHub Actions workflows for CI/CD automation",
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -692,6 +691,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "actions",
+      ],
       description: "Incubation repo for orchestration",
       rulesets: [
         orgs.newRepoRuleset('main') {
