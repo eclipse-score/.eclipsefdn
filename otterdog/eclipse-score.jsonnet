@@ -724,5 +724,25 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
+    orgs.newRepo('bazel_registry_ui') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "actions",
+      ],
+      description: "House the ui for bazel_registry in Score",
+      gh_pages_build_type: "workflow",
+      homepage: "https://eclipse-score.github.io/bazel_registry_ui",
+      forked_repository:"https://github.com/bazel-contrib/bcr-ui",
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+        },
+      ],
+    },
   ],
 }
