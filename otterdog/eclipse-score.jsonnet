@@ -734,7 +734,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "House the ui for bazel_registry in Score",
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/bazel_registry_ui",
-      forked_repository:"https://github.com/bazel-contrib/bcr-ui",
+      forked_repository:"bazel-contrib/bcr-ui",
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
