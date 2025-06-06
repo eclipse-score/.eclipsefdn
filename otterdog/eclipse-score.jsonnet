@@ -348,6 +348,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages = [
+        "actions"
+      ],
       description: "Incubation repository for persistency framework",
       homepage: "https://eclipse-score.github.io/inc_mw_per",
       gh_pages_build_type: "workflow",
@@ -439,7 +442,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
       code_scanning_default_languages+: [
-        "python"
+        "action"
       ],
       description: "Score project process description",
       gh_pages_build_type: "workflow",
