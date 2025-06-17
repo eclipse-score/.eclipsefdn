@@ -426,6 +426,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
 
     newScoreRepo('process_description', pages = true) {
+      has_projects: true,
+
       // Custom merge settings.
       allow_merge_commit: true,
       allow_rebase_merge: true,
