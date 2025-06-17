@@ -42,7 +42,7 @@ local newScoreRepo(name, pages) = orgs.newRepo(name) {
 } else {};
 
 local newModuleRepo(name) = newScoreRepo(name, true) {
-  forked_repository: "eclipse-score/module_template",
+  template_repository: "eclipse-score/module_template",
 };
 
 local newInfrastructureTeamRepo(name, pages = false) = newScoreRepo(name, pages) {
