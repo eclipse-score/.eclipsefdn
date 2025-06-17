@@ -690,6 +690,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       forked_repository:"bazel-contrib/bcr-ui",
     },
 
+    newInfrastructureTeamRepo('apt-install') {
+      description: "GitHub Action to execute apt-install in a clever way",
+    },
+
     orgs.newRepo('testing_tools') {
       allow_merge_commit: true,
       allow_update_branch: false,
@@ -703,6 +707,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           required_pull_request+: default_review_rule,
         },
       ],
+    },
+
+    newModuleRepo('inc_json') {
+      description: "Incubation repository for JSON module",
     },
   ],
 }
