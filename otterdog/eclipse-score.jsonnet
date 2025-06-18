@@ -53,11 +53,6 @@ local newInfrastructureTeamRepo(name, pages = false) = newScoreRepo(name, pages)
         "refs/heads/main"
       ],
       required_pull_request+: default_review_rule,
-
-      // Enable emergency operations.
-      bypass_actors+: [
-        "@eclipse-score/infrastructure-maintainers",
-      ],
     },
   ],
 };
@@ -508,9 +503,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "refs/heads/main"
           ],
           required_pull_request+: default_review_rule,
-          bypass_actors+: [
-            "@eclipse-score/codeowner-baselibs",
-          ],
+          required_status_checks+: {
+            status_checks+: [
+              "build_and_test_gcc_host_gcc12",
+            ],
+          },
           allows_force_pushes: false,
           requires_linear_history: true,
         },
@@ -529,9 +526,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "refs/heads/main"
           ],
           required_pull_request+: default_review_rule,
-          bypass_actors+: [
-            "@eclipse-score/codeowner-lola",
-          ],
+          required_status_checks+: {
+            status_checks+: [
+              "build_and_test_gcc_host_gcc12",
+            ],
+          },
           allows_force_pushes: false,
           requires_linear_history: true,
         },
