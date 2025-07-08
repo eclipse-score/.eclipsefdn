@@ -1,3 +1,5 @@
+# Overview, Defaults, Reference see https://otterdog.eclipse.org/projects/automotive.score
+
 local orgs = import 'vendor/otterdog-defaults/otterdog-defaults.libsonnet';
 
 local default_review_rule = {
@@ -6,20 +8,45 @@ local default_review_rule = {
   requires_code_owner_review: true,
 };
 
-local newInfrastructureTeamRepo(name) = orgs.newRepo(name) {
+// Hint: Override all options as required when creating a new repository. See below for examples.
+// Parameters:
+//   name: The name of the repository.
+//   pages: boolean, whether to create default documentation pages for the repository.
+local newScoreRepo(name, pages) = orgs.newRepo(name) {
   // These are disabled by default
   dependabot_security_updates_enabled: true,
 
-  // Squash only
+  // Default: Squash only.
+  // More details: https://eclipse-score.github.io/score/main/contribute/general/git.html
   allow_rebase_merge: false,
   allow_merge_commit: false,
   allow_squash_merge: true,
-  
+
   // Remove some features, to avoid having too many options where stuff is located
   has_discussions: false,
   has_projects: false,
   has_wiki: false,
 
+  // Setup the default review rule for main branch.
+  rulesets: [
+    orgs.newRepoRuleset('main') {
+      include_refs+: [
+        "refs/heads/main"
+      ],
+      required_pull_request+: default_review_rule,
+    },
+  ],
+} + if pages then {
+  gh_pages_build_type: "workflow",
+  homepage: "https://eclipse-score.github.io/" + name,
+} else {};
+
+local newModuleRepo(name) = newScoreRepo(name, true) {
+  template_repository: "eclipse-score/module_template",
+};
+
+local newInfrastructureTeamRepo(name, pages = false) = newScoreRepo(name, pages) {
+  // Override the rulesets
   rulesets: [
     orgs.newRepoRuleset('main') {
       include_refs+: [
@@ -214,6 +241,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     orgs.newOrgSecret('RENOVATE_TOKEN') {
       value: "pass:bots/automotive.score/github.com/renovate-token",
     },
+    orgs.newOrgSecret('GH_PUBLISH_TOKEN') {
+      selected_repositories+: [
+        "eclipse-score-website"
+      ],
+      value: "pass:bots/automotive.score/github.com/website-token",
+      visibility: "selected"
+    }
   ],
   _repositories+:: [
     orgs.newRepo('.github') {
@@ -234,50 +268,22 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    orgs.newRepo('bazel_registry') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-        "python"
-      ],
+
+    newInfrastructureTeamRepo('bazel_registry') {
       description: "Score project bazel modules registry",
       topics+: [
         "bazel",
         "registry",
         "score"
       ],
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
-      ],
     },
-    orgs.newRepo('eclipse-score.github.io') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      code_scanning_default_languages+: [
-        "python"
-      ],
-      code_scanning_default_setup_enabled: true,
+
+    newScoreRepo('eclipse-score.github.io', pages = true) {
       description: "The landing page website for the Score project",
-      gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/",
       topics+: [
         "landing-page",
         "score"
-      ],
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
       ],
       environments: [
         orgs.newEnvironment('github-pages') {
@@ -287,6 +293,18 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           deployment_branch_policy: "selected",
         },
       ],
+    },
+    orgs.newRepo('eclipse-score-website') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      delete_branch_on_merge: false,
+      dependabot_alerts_enabled: false,
+    },
+    orgs.newRepo('eclipse-score-website-published') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      delete_branch_on_merge: false,
+      dependabot_alerts_enabled: false,
     },
     orgs.newRepo('inc_feo') {
       allow_merge_commit: true,
@@ -339,24 +357,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    orgs.newRepo('inc_mw_per') {
+    newScoreRepo('inc_mw_per', true) {
       allow_merge_commit: true,
       allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions"
-      ],
+
       description: "Incubation repository for persistency framework",
-      homepage: "https://eclipse-score.github.io/inc_mw_per",
-      gh_pages_build_type: "workflow",
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
-      ],
+
     },
     orgs.newRepo('inc_process_test_management') {
       allow_merge_commit: true,
@@ -400,6 +406,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages: [
+        "actions",
+      ],
       description: "Integration Testing Framework repository",
       gh_pages_build_type: "legacy",
       gh_pages_source_branch: "gh-pages",
@@ -432,28 +441,18 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         orgs.newEnvironment('github-pages'),
       ],
     },
-    orgs.newRepo('process_description') {
+
+    newScoreRepo('process_description', pages = true) {
+      has_projects: true,
+
+      // Custom merge settings.
       allow_merge_commit: true,
+      allow_rebase_merge: true,
       allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-        "python"
-      ],
       description: "Score project process description",
-      gh_pages_build_type: "workflow",
-      homepage: "https://eclipse-score.github.io/process_description",
       topics+: [
         "process",
         "score"
-      ],
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
       ],
       environments: [
         orgs.newEnvironment('github-pages') {
@@ -510,9 +509,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         orgs.newEnvironment('github-pages'),
       ],
     },
+
     newInfrastructureTeamRepo('tooling') {
       description: "Tooling for Eclipse S-CORE",
+      environments+: [
+        orgs.newEnvironment('copilot'),
+      ],
     },
+
     orgs.newRepo('baselibs') {
       allow_merge_commit: false,
       allow_update_branch: false,
@@ -666,50 +670,26 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    orgs.newRepo('module_template') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-      ],
+
+    newInfrastructureTeamRepo('module_template', pages = true) {
       description: "C++ & Rust Bazel Template Repository",
-      is_template: true,  // Enable template repository functionality
-      gh_pages_build_type: "workflow",
-      homepage: "https://eclipse-score.github.io/module_template",
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
-      ],
+      is_template: true,
     },
-    orgs.newRepo('cicd-workflows') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-      ],
+
+    newInfrastructureTeamRepo('cicd-workflows') {
       description: "Reusable GitHub Actions workflows for CI/CD automation",
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
-      ],
     },
-    newInfrastructureTeamRepo('docs-as-code') {
+
+    newInfrastructureTeamRepo('docs-as-code', pages = true) {
       description: "Docs-as-code tooling for Eclipse S-CORE",
 
-      // GitHub Pages via modern workflow approach
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/docs-as-code",
+      environments+: [
+        orgs.newEnvironment('copilot'),
+      ],
     },
+
     orgs.newRepo('inc_orchestrator') {
       allow_merge_commit: true,
       allow_update_branch: false,
@@ -729,17 +709,29 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    orgs.newRepo('bazel_registry_ui') {
-      allow_merge_commit: true,
-      allow_update_branch: false,
-      // code_scanning_default_setup_enabled: true,
-      // code_scanning_default_languages+: [
-      //   "actions",
-      // ],
+
+    newInfrastructureTeamRepo('bazel_registry_ui') {
       description: "House the ui for bazel_registry in Score",
-      gh_pages_build_type: "workflow",
+      gh_pages_build_type: "legacy",
+      gh_pages_source_branch: "gh-pages",
+      gh_pages_source_path: "/",
       homepage: "https://eclipse-score.github.io/bazel_registry_ui",
       forked_repository:"bazel-contrib/bcr-ui",
+    },
+
+    newInfrastructureTeamRepo('apt-install') {
+      description: "GitHub Action to execute apt-install in a clever way",
+    },
+
+    newInfrastructureTeamRepo('devcontainer') {
+      description: "Common Devcontainer for Eclipse S-CORE",
+    },
+
+    orgs.newRepo('testing_tools') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      description: "Repository for testing utilities",
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -748,6 +740,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           required_pull_request+: default_review_rule,
         },
       ],
+    },
+
+    newModuleRepo('inc_json') {
+      description: "Incubation repository for JSON module",
+    },
+    newModuleRepo('feo') {
+      description: "Repository for the Fixed Order Execution (FEO) framework",
     },
   ],
 }
