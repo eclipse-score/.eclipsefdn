@@ -712,6 +712,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
+    newScoreRepo("inc_nlohmann_json", true) {
+        description: "Nlohmann JSON Library",
+        forked_repository: "https://github.com/nlohmann/json",
+        allow_rebase_merge: true,
+        allow_merge_commit: true,
+        has_discussions: true,
+        has_wiki: true,
+    },
+
     newInfrastructureTeamRepo('bazel_registry_ui') {
       description: "House the ui for bazel_registry in Score",
       gh_pages_build_type: "legacy",
