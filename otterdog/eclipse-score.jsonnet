@@ -776,7 +776,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Incubation repository for DAAL module",
     },
     newModuleRepo('inc_os_autosd') {
-              description: "Incubation repository for DAAL module",
+      description: "Incubation repository for AutoSD Development Platform",
     },
   ],
 }
