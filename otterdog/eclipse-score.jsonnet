@@ -775,5 +775,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('inc_daal') {
       description: "Incubation repository for DAAL module",
     },
+    newModuleRepo('inc_config_management') {
+      description: "Incubation repository for Config Management module",
+    },
   ],
 }
