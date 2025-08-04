@@ -750,6 +750,20 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         has_wiki: true,
     },
 
+    newScoreRepo("json_test_data_mirror", false) {
+      description: "JSON test data mirror for nlohmann_json",
+      forked_repository: "nlohmann/json_test_data",
+      default_branch: "master",
+      rulesets: [
+        orgs.newRepoRuleset('master') {
+          include_refs+: [
+            "refs/heads/master"
+          ],
+          required_pull_request+: default_review_rule,
+        },
+      ],
+    },
+
     newInfrastructureTeamRepo('bazel_registry_ui') {
       description: "House the ui for bazel_registry in Score",
       gh_pages_build_type: "legacy",
