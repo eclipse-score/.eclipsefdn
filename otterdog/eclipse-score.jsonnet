@@ -137,7 +137,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "johannes-esr",
         "ltekieli",
         "markert-r",
-        "qor-lb"
+        "qor-lb",
+        "umaucher"
       ],
     },
     orgs.newTeam('community-architecture') {
@@ -303,12 +304,27 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_update_branch: false,
       delete_branch_on_merge: false,
       dependabot_alerts_enabled: false,
+      environments: [
+        orgs.newEnvironment('pull-request-preview'),
+      ],
     },
     orgs.newRepo('eclipse-score-website-published') {
       allow_merge_commit: true,
       allow_update_branch: false,
       delete_branch_on_merge: false,
       dependabot_alerts_enabled: false,
+    },
+    orgs.newRepo('eclipse-score-website-preview') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      delete_branch_on_merge: false,
+      dependabot_alerts_enabled: false,
+      gh_pages_build_type: "legacy",
+      gh_pages_source_branch: "gh-pages-preview",
+      gh_pages_source_path: "/",
+      environments: [
+        orgs.newEnvironment('github-pages'),
+      ],
     },
     orgs.newRepo('inc_feo') {
       allow_merge_commit: true,
@@ -781,8 +797,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('bazel-tools-python') {
       description: "Repository for python static code checker",
     },
+    newModuleRepo('inc_config_management') {
+      description: "Incubation repository for config management",
+    },        
     newModuleRepo('bazel-tools-cc') {
       description: "Repository for clang-tidy based static code checker",
-    },        
+    },
   ],
 }
