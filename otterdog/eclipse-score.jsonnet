@@ -829,7 +829,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Repository for clang-tidy based static code checker",
     },
 
-    orgs.newRepo('logging') {
+    newModuleRepo('logging') {
       allow_merge_commit: false,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: false,
