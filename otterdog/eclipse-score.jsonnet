@@ -828,5 +828,27 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('bazel-tools-cc') {
       description: "Repository for clang-tidy based static code checker",
     },
+
+    orgs.newRepo('logging') {
+      allow_merge_commit: false,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: false,
+      has_discussions: true,
+      has_wiki: false,
+      description: "Repository for logging framework",
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+          bypass_actors+: [
+            "@eclipse-score/cft-logging",
+          ],
+          allows_force_pushes: false,
+          requires_linear_history: true,
+        },
+      ],
+    },
   ],
 }
