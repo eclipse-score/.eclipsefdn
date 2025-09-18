@@ -831,5 +831,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('logging') {
       description: "Repository for logging framework",
     },
+    newModuleRepo('scrample') {
+      description: "Repository for example component",
+    },    
   ],
 }
