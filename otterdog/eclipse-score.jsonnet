@@ -828,5 +828,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('bazel-tools-cc') {
       description: "Repository for clang-tidy based static code checker",
     },
+    newModuleRepo('logging') {
+      description: "Repository for logging framework",
+    },
   ],
 }
