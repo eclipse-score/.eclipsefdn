@@ -814,6 +814,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Common Devcontainer for Eclipse S-CORE",
     },
 
+    newInfrastructureTeamRepo('dash-license-scan') {
+      description: "pipx/uvx wrapper for the dash-licenses tool",
+    },
+
     orgs.newRepo('testing_tools') {
       allow_merge_commit: true,
       allow_update_branch: false,
