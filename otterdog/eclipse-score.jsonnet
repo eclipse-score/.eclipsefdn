@@ -219,6 +219,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       members+: [
       ],
     },
+    orgs.newTeam('codeowner-inc_nlohmann_json') {
+      members+: [
+        "4og",
+      ],
+    },
     orgs.newTeam('infrastructure-maintainers') {
       members+: [
         "AlexanderLanin",
@@ -244,6 +249,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "persistency",
         "baselibs",
       	"communication",
+        "reference_integration",
+        "scrample",
       ],
       value: "********",
       visibility: "selected",
@@ -253,7 +260,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "toolchains_qnx",
         "persistency",
         "baselibs",
-	      "communication",
+        "communication",
+        "reference_integration",
+        "scrample",
       ],
       value: "********",
       visibility: "selected",
@@ -263,7 +272,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "toolchains_qnx",
         "persistency",
         "baselibs",
-	      "communication",
+        "communication",
+        "reference_integration",
+        "scrample",
       ],
       value: "********",
       visibility: "selected",
@@ -580,6 +591,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       code_scanning_default_setup_enabled: true,
       code_scanning_default_languages+: [
         "python",
+        "actions",
       ],
       description: "Score project integration repository",
       topics+: [
@@ -842,6 +854,19 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         allow_merge_commit: true,
         has_discussions: true,
         has_wiki: true,
+        rulesets: [
+          orgs.newRepoRuleset('main') {
+            include_refs+: [
+              "refs/heads/main"
+            ],
+            required_pull_request+: default_review_rule,
+            bypass_actors+: [
+              "@eclipse-score/codeowner-inc_nlohmann_json",
+            ],
+            allows_force_pushes: false,
+            requires_linear_history: true,
+          },
+        ],
     },
 
     newScoreRepo('baselibs_rust', true) {
