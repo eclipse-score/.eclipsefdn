@@ -198,7 +198,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       members+: [
         "castler",
         "hoe-jo",
-        "LittleHuba"
+        "LittleHuba",
+        "bemerybmw",
+        "limdor",
       ],
     },
     orgs.newTeam('codeowner-baselibs') {
@@ -209,6 +211,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "ramceb",
         "nradakovic",
         "4og",
+        "bemerybmw",
+        "limdor",
       ],
     },
     orgs.newTeam('codeowner-baselibs_rust') {
@@ -462,7 +466,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           deployment_branch_policy: "all",
           reviewers+: [],
           wait_timer: 0,
-        },      
+        },
       ],
     },
     orgs.newRepo('inc_process_test_management') {
@@ -899,16 +903,16 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newInfrastructureTeamRepo('dash-license-scan') {
       description: "pipx/uvx wrapper for the dash-licenses tool",
     },
-    
+
     newInfrastructureTeamRepo('test_integration') {
       description: "Tests for the integration infrastructure",
     },
-    
+
     newInfrastructureTeamRepo('test_module_a') {
       description: "Dummy module for testing the integration infrastructure",
       template_repository: "eclipse-score/module_template",
     },
-    
+
     newInfrastructureTeamRepo('test_module_b') {
       description: "Dummy module for testing the integration infrastructure",
       template_repository: "eclipse-score/module_template",
@@ -955,7 +959,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newModuleRepo('scrample') {
       description: "Repository for example component",
-    },  
+    },
     newModuleRepo('inc_abi_compatible_datatypes') {
       description: "Incubation repository for ABI compatible data types feature",
     },
