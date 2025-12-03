@@ -360,7 +360,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "registry",
         "score"
       ],
-      rulesets: [
+      rulesets+: [
         block_tagging(
           [
             "v*",
