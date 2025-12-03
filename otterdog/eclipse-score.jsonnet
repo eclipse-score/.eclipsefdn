@@ -25,6 +25,10 @@ local block_tagging(tags, bypass) =
   allows_creations: false,
   allows_deletions: false,	
   allows_updates: false,
+
+  # Those are not needed. Override in order to drop the defaults.
+  required_pull_request: null,
+  required_status_checks: null,
 };
 
 // Hint: Override all options as required when creating a new repository. See below for examples.
