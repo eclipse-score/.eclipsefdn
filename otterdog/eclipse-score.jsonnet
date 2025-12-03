@@ -6,7 +6,7 @@ local default_review_rule = {
   # dismiss approved reviews automatically when a new commit is pushed
   dismisses_stale_reviews: true,
 
-  # The number or approvals required before a pull request can be merged [0,10]
+  # The number of approvals required before a pull request can be merged [0,10]
   required_approving_review_count: 1,
 
   # require an approved review in pull requests including files with a designated code owner
@@ -23,7 +23,7 @@ local block_tagging(tags, bypass) =
   bypass_actors+: ["@eclipse-score-bot"] + bypass,
   include_refs+: [std.format("refs/tags/%s", tag) for tag in tags],
   allows_creations: false,
-  allows_deletions: false,	
+  allows_deletions: false,
   allows_updates: false,
 
   # Those are not needed. Override in order to drop the defaults.
@@ -367,7 +367,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       rulesets+: [
         block_tagging(
           [
-            "v*",
+            "*", # block all tag creations
+            # alternatively, specify specific tags to block here, e.g. "v*"
           ],
           [
             "@eclipse-score/infrastructure-maintainers",
