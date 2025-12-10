@@ -247,7 +247,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "nicu1989",
       ],
     },
-    orgs.newTeam('codeowner-configmgmt') {
+    orgs.newTeam('codeowner-config_management') {
       members+: [
         "antonkri",
         "4og",
@@ -1057,7 +1057,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           required_pull_request+: default_review_rule,
           bypass_actors+: [
-            "@eclipse-score/codeowner-configmgmt",
+            "@eclipse-score/codeowner-config_management",
           ],
           allows_force_pushes: false,
           requires_linear_history: true,
