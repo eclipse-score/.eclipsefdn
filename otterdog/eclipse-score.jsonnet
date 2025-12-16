@@ -695,7 +695,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     orgs.newRepo('communication') {
       allow_merge_commit: false,
-      allow_update_branch: false,
+      allow_update_branch: true,
       code_scanning_default_languages+: [
         "actions",
         "c-cpp",
