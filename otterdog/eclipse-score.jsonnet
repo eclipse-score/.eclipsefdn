@@ -77,10 +77,10 @@ local pypi_infra_env = orgs.newEnvironment('pypi') {
   // Note: we cannot use @eclipse-score/infrastructure-maintainers here,
   // because the team does not have write access, only the members.
   reviewers+: [
-    "AlexanderLanin",
-    "dcalavrezo-qorix",
-    "MaximilianSoerenPollak",
-    "nradakovic",
+    "@AlexanderLanin",
+    "@dcalavrezo-qorix",
+    "@MaximilianSoerenPollak",
+    "@nradakovic",
   ],
   deployment_branch_policy: "selected",
   branch_policies+: [
