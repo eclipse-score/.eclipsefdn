@@ -338,6 +338,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "kyron",
         "orchestrator",
         "ferrocene_toolchain_builder",
+        "inc_lifecycle",
       ],
       value: "********",
       visibility: "selected",
