@@ -521,8 +521,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments: [
         orgs.newEnvironment('workflow-approval') {
           deployment_branch_policy: "all",
-          reviewers+: [],
-          wait_timer: 0,
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
         },      
       ],
     },
@@ -962,8 +964,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments: [
         orgs.newEnvironment('workflow-approval') {
           deployment_branch_policy: "all",
-          reviewers+: [],
-          wait_timer: 0,
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
         },
       ],
       // Override the rulesets
