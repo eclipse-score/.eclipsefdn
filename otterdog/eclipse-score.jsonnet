@@ -97,6 +97,180 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     has_discussions: true,
 },
   teams+: [
+    orgs.newTeam('automotive-score-PLC-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-PLC-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-TLC-team') {
+      members+: [
+        "anmittag", 
+        "antonkri",
+        "FScholPer",
+        "johannes-esr",
+        "qor-lb"
+      ],
+    },
+    orgs.newTeam('automotive-score-TLC-lead') {
+      members+: [
+      ],
+    },
+    orgs.newTeam('automotive-score-ARC-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-ARC-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-INF-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-INF-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-PRC-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-PRC-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-TST-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-TST-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-INT-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-INT-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-MCM-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-MCM-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-BAS-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-BAS-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-COM-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-COM-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-CFG-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-CFG-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-FEO-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-FEO-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-KYR-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-KYR-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-LCM-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-LCM-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-LOG-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-LOG-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-ORC-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-ORC-lead') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-PER-team') {
+      members+: [
+
+      ],
+    },
+    orgs.newTeam('automotive-score-PER-lead') {
+      members+: [
+
+      ],
+    },
+// keep original to not break any other things in the organization
     orgs.newTeam('automotive-score-technical-leads') {
       members+: [
         "FScholPer",
