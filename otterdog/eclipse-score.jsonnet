@@ -20,7 +20,7 @@ local block_tagging(tags, bypass) =
  orgs.newRepoRuleset('tags-protection') {
   target: "tag",
   # bot has admin access anyway, but let's be explicit
-  bypass_actors+: ["@eclipse-score-bot"] + bypass,
+  bypass_actors+: bypass, # + ["@eclipse-score-bot"] # Bypass_actors cannot be individuals, only role, team, or App: https://otterdog.readthedocs.io/en/latest/reference/organization/repository/bypass-actor/
   include_refs+: [std.format("refs/tags/%s", tag) for tag in tags],
   allows_creations: false,
   allows_deletions: false,
@@ -69,26 +69,18 @@ local newModuleRepo(name) = newScoreRepo(name, true) {
 };
 
 local newInfrastructureTeamRepo(name, pages = false) = newScoreRepo(name, pages) {
-  // Override the rulesets
-  rulesets: [
-    orgs.newRepoRuleset('main') {
-      include_refs+: [
-        "refs/heads/main"
-      ],
-      required_pull_request+: default_review_rule,
-
-      // Enable emergency operations.
-      bypass_actors+: [
-        "@eclipse-score/infrastructure-maintainers",
-      ],
-    },
-  ],
+  // No special settings for infrastructure team repos at the moment
 };
 
-# Publication to pypi can only be triggered by infrastructure-maintainers and only from main branch
+# Publication to pypi can only be triggered by infrastructure-maintainers and only from main branch or tag
 local pypi_infra_env = orgs.newEnvironment('pypi') {
+  // Note: we cannot use @eclipse-score/infrastructure-maintainers here,
+  // because the team does not have write access, only the members.
   reviewers+: [
-    "@eclipse-score/infrastructure-maintainers",
+    "@AlexanderLanin",
+    "@dcalavrezo-qorix",
+    "@MaximilianSoerenPollak",
+    "@nradakovic",
   ],
   deployment_branch_policy: "selected",
   branch_policies+: [
@@ -103,7 +95,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     description: "",
     discussion_source_repository: "eclipse-score/score",
     has_discussions: true,
-  },
+},
   teams+: [
     orgs.newTeam('automotive-score-PLC-team') {
       members+: [
@@ -360,18 +352,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "qor-lb"
       ],
     },
-    orgs.newTeam('community-operational') {
-      members+: [
-        "AlexanderLanin",
-        "FScholPer",
-        "PhilipPartsch",
-        "antonkri",
-        "johannes-esr",
-        "ltekieli",
-        "markert-r",
-        "qor-lb"
-      ],
-    },
     orgs.newTeam('community-process') {
       members+: [
         "FScholPer",
@@ -419,7 +399,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       members+: [
       ],
     },
-    orgs.newTeam('codeowner-inc_nlohmann_json') {
+    orgs.newTeam('codeowner-nlohmann_json') {
       members+: [
         "4og",
       ],
@@ -467,12 +447,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "baselibs",
         "baselibs_rust",
         "communication",
+        "logging",
         "reference_integration",
         "scrample",
         "bazel_cpp_toolchains",
         "kyron",
         "orchestrator",
         "ferrocene_toolchain_builder",
+        "lifecycle",
       ],
       value: "********",
       visibility: "selected",
@@ -484,12 +466,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "baselibs",
         "baselibs_rust",
         "communication",
+        "logging",
         "reference_integration",
         "scrample",
         "bazel_cpp_toolchains",
         "kyron",
         "orchestrator",
         "ferrocene_toolchain_builder",
+        "lifecycle",
       ],
       value: "********",
       visibility: "selected",
@@ -501,12 +485,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "baselibs",
         "baselibs_rust",
         "communication",
+        "logging",
         "reference_integration",
         "scrample",
         "bazel_cpp_toolchains",
         "kyron",
         "orchestrator",
         "ferrocene_toolchain_builder",
+        "lifecycle",
       ],
       value: "********",
       visibility: "selected",
@@ -629,7 +615,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    orgs.newRepo('inc_lifecycle') {
+    orgs.newRepo('lifecycle') {
       allow_merge_commit: true,
       allow_update_branch: false,
       // TODO: re-enable after some code has been added to the repository
@@ -647,6 +633,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           required_pull_request+: default_review_rule,
         },
+      ],
+      aliases: [
+        "inc_lifecycle",
       ],
     },
     orgs.newRepo('score-crates') {
@@ -711,8 +700,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments: [
         orgs.newEnvironment('workflow-approval') {
           deployment_branch_policy: "all",
-          reviewers+: [],
-          wait_timer: 0,
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
         },      
       ],
     },
@@ -855,6 +846,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       gh_pages_source_branch: "gh-pages",
       gh_pages_source_path: "/",
       has_discussions: true,
+      has_wiki: true,
       homepage: "https://eclipse-score.github.io/score",
       topics+: [
         "score"
@@ -893,6 +885,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "base libraries including common functionality",
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/baselibs",
+      environments: [
+        orgs.newEnvironment('workflow-approval') {
+          deployment_branch_policy: "all",
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
+        },
+      ],
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -914,7 +915,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "actions",
         "c-cpp",
         "python",
-        "rust",
+        # "rust", # not yet supported by GH API: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#update-a-code-scanning-default-setup-configuration
       ],
       code_scanning_default_setup_enabled: true,
       has_discussions: true,
@@ -930,6 +931,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/codeowner-lola",
           ],
           allows_force_pushes: false,
+          requires_linear_history: true,
+        },
+        orgs.newRepoRuleset('linear_history') {
+          include_refs+: [
+            "~ALL"
+          ],
+          bypass_actors+: [
+            "@eclipse-score/codeowner-lola",
+          ],
           requires_linear_history: true,
         },
       ],
@@ -1098,7 +1108,30 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newScoreRepo("inc_nlohmann_json", true) {
+    orgs.newRepo('inc_score_codegen') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      // code must be present to enable code scanning
+      // code_scanning_default_languages+: [
+      //   "python"
+      // ],
+      code_scanning_default_setup_enabled: true,
+      description: "Incubation repository for DSL/code-gen specific to score project",
+      homepage: "https://eclipse-score.github.io/inc_score_codegen",
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+        },
+      ],
+    },
+
+    newScoreRepo("nlohmann_json", true) {
+        aliases: [
+          "inc_nlohmann_json",
+        ],
         description: "Nlohmann JSON Library",
         forked_repository: "nlohmann/json",
         default_branch: "main",
@@ -1127,8 +1160,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments: [
         orgs.newEnvironment('workflow-approval') {
           deployment_branch_policy: "all",
-          reviewers+: [],
-          wait_timer: 0,
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
         },
       ],
       // Override the rulesets
@@ -1166,6 +1201,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       gh_pages_source_path: "/",
       homepage: "https://eclipse-score.github.io/bazel_registry_ui",
       forked_repository:"bazel-contrib/bcr-ui",
+    },
+
+    newInfrastructureTeamRepo('more-disk-space') {
+      description: "GitHub Action to make more disk space available in Ubuntu based GitHub Actions runners",
     },
 
     newInfrastructureTeamRepo('apt-install') {
@@ -1279,14 +1318,23 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newModuleRepo('inc_gen_ai') {
       description: "Incubation repository for Generative AI feature",
     },
+    newModuleRepo('inc_security_crypto') {
+      description: "Incubation repository for Security & Cryptography feature",
+    },
     newModuleRepo('kyron') {
       allow_merge_commit: true,
       description: "Safe async runtime for Rust",
+    },
+    newModuleRepo('inc_time') {
+      allow_merge_commit: true,
+      description: "incubation repo for time sync module",
     },
     orgs.newRepo('config_management') {
       allow_merge_commit: false,
       allow_update_branch: false,
       code_scanning_default_setup_enabled: false,
+      gh_pages_build_type: "workflow",
+      template_repository: "eclipse-score/module_template",
       has_discussions: true,
       has_wiki: false,
       description: "Repository for config management",
