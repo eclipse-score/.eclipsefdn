@@ -1061,7 +1061,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
-            "refs/heads/main"
+            "~DEFAULT_BRANCH"
           ],
           required_pull_request+: default_review_rule,
           required_status_checks+: {
