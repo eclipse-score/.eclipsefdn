@@ -1086,7 +1086,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('dev_infrastructure', true) {
       description: "All general information related to the development and integration infrastructure",
-      template_repository: "eclipse-score/module_template",
     },
 
     orgs.newRepo('testing_tools') {
