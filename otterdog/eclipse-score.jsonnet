@@ -788,6 +788,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           requires_linear_history: true,
         },
       ],
+      environments: [
+        orgs.newEnvironment('workflow-approval') {
+          deployment_branch_policy: "all",
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
+        },
+      ],
     },
     orgs.newRepo('operating_system') {
       allow_merge_commit: true,
@@ -1049,6 +1058,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       gh_pages_source_path: "/",
       homepage: "https://eclipse-score.github.io/bazel_registry_ui",
       forked_repository:"bazel-contrib/bcr-ui",
+    },
+
+    newInfrastructureTeamRepo("rules_rust") {
+      description: "S-CORE fork of bazelbuild/rules_rust",
+      forked_repository: "bazelbuild/rules_rust",
+      default_branch: "main",
     },
 
     newInfrastructureTeamRepo('more-disk-space') {
