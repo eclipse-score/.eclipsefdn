@@ -1182,6 +1182,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newModuleRepo('inc_someip_gateway') {
       description: "Incubation repository for SOME/IP gateway feature",
+      environments: [
+        orgs.newEnvironment('workflow-approval') {
+          deployment_branch_policy: "all",
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
+        },
+      ],
     },
     newModuleRepo('inc_time') {
       description: "Incubation repository for time feature",
