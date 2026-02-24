@@ -254,7 +254,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "darkwisebear",
         "wei2374",
       ],
-    },    
+    },
   ],
   variables+: [
     orgs.newOrgVariable("ECLIPSE_PROJECT") {
@@ -549,7 +549,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/automotive-score-committers",
           ],
           wait_timer: 1,
-        },      
+        },
       ],
     },
     orgs.newRepo('inc_process_test_management') {
@@ -795,6 +795,18 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/automotive-score-committers",
           ],
           wait_timer: 1,
+        },
+      ],
+      webhooks+: [
+        orgs.newRepoWebhook('https://app.readthedocs.org/api/v2/webhook/score-communication/319863/') {
+          content_type: "json",
+          events+: [
+            "push",
+            "pull_request",
+            "create",
+            "delete"
+          ],
+          secret: "pass:bots/automotive.score/readthedocs.org/webhook_secret",
         },
       ],
     },
@@ -1093,16 +1105,16 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         pypi_infra_env,
       ],
     },
-    
+
     newInfrastructureTeamRepo('test_integration') {
       description: "Tests for the integration infrastructure",
     },
-    
+
     newInfrastructureTeamRepo('test_module_a') {
       description: "Dummy module for testing the integration infrastructure",
       template_repository: "eclipse-score/module_template",
     },
-    
+
     newInfrastructureTeamRepo('test_module_b') {
       description: "Dummy module for testing the integration infrastructure",
       template_repository: "eclipse-score/module_template",
