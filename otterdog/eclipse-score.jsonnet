@@ -82,6 +82,7 @@ local qnx_enabled_repos = [
     "ferrocene_toolchain_builder",
     "lifecycle",
     "rules_imagefs",
+    "itf",
 ];
 
 
@@ -1172,9 +1173,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newDependableElementRepo('inc_someip_gateway') {
       description: "Incubation repository for SOME/IP gateway feature",
-    },
-    newDependableElementRepo('inc_time') {
-      description: "Incubation repository for time feature",
     },
     newDependableElementRepo('inc_diagnostics') {
       description: "Incubation repository for diagnostics feature",
