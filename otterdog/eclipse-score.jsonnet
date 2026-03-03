@@ -760,7 +760,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
       code_scanning_default_setup_enabled: true,
       has_discussions: true,
-      rulesets+: [
+      rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
             "refs/heads/main"
