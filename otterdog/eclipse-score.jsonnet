@@ -612,6 +612,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
       environments: [
         orgs.newEnvironment('github-pages'),
+        orgs.newEnvironment('workflow-approval') {
+          deployment_branch_policy: "all",
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
+        },
       ],
     },
     orgs.newRepo('bazel_platforms') {
@@ -752,7 +759,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
       code_scanning_default_setup_enabled: true,
       has_discussions: true,
-      rulesets: [
+      rulesets+: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
             "refs/heads/main"
@@ -773,20 +780,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           requires_linear_history: true,
         },
-        orgs.newRepoRuleset('release_creation_by_codeowners_only') {
-          name: "Restrict Release Creation to Code Owners",
-          target: "tag",
-          enforcement: "active",
-          bypass_actors+: [
+        block_tagging(
+          [
+            "*", # block all tag creations
+          ],
+          [
             "@eclipse-score/codeowner-lola",
           ],
-          include_refs+: [
-            "refs/tags/*",
-          ],
-          allows_creations: false,
-          allows_deletions: false,
-          allows_updates: false,
-        },
+        ),
       ],
       environments: [
         orgs.newEnvironment('workflow-approval') {
