@@ -1217,6 +1217,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           requires_status_checks: true,
           requires_strict_status_checks: true,
           requires_linear_history: true,
+          required_approving_review_count: 1,
         },
       ],
       rulesets: [
