@@ -73,6 +73,7 @@ local qnx_enabled_repos = [
     "baselibs",
     "baselibs_rust",
     "communication",
+    "inc_someip_gateway",
     "logging",
     "reference_integration",
     "scrample",
