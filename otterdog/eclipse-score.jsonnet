@@ -120,13 +120,17 @@ local newDependableElementRepo(name) = newScoreRepo(name, true) {
 # Parameters:
 #   name:        Name of the repository.
 #   pages:       Boolean, whether to enable GitHub Pages defaults (see newScoreRepo).
-#   subcategory: Optional string to refine the "category" custom property.
+#   subcategory: Optional string stored as a "subcategory" custom property alongside "category".
 local newInfrastructureTeamRepo(name, pages = false, subcategory = null) =
-  newScoreRepo(name, pages = pages) {
-    custom_properties: {
+  local cat = if subcategory != null then {
       category: "infrastructure",
       subcategory: subcategory
-    },
+    } else {
+      category: "infrastructure",
+    };
+
+  newScoreRepo(name, pages = pages) {
+    custom_properties+: cat,
 
     # 'copilot' environment is added automatically sooner or later,
     # so we just add it from the start to avoid any drift.
@@ -159,8 +163,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     custom_properties+: [
       # This is used to categorize repositories for the auto-generated organization README file.
-      # The value is expected to be in the format "category.subcategory", but this is not enforced.
-      # The subcategory is optional and can be used to further categorize repositories. For example, "infrastructure.bazel" or "modules.communication".
+      # The subcategory is optional and can be used to further categorize repositories.
       orgs.newCustomProperty('category') {
         description: "Category used to group repositories in the auto-generated organization README file",
         value_type: "string",
@@ -613,7 +616,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "integration",
       ],
 
-      # Deviations from standard infrastrutcure repository settings:
+      # Deviations from standard infrastructure repository settings:
       environments+: qnx_environments,
       allow_rebase_merge: true,
       allow_update_branch: true,
@@ -930,7 +933,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newInfrastructureTeamRepo('score_rust_policies', subcategory = "toolchain") {
+    newInfrastructureTeamRepo('score_rust_policies', subcategory = "toolchains") {
       description: "Centralized Rust linting and formatting policies for S-CORE, including safety-critical guidelines.",
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/score_rust_policies",
@@ -943,7 +946,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newInfrastructureTeamRepo('score_cpp_policies', pages = true, subcategory = "toolchain") {
+    newInfrastructureTeamRepo('score_cpp_policies', pages = true, subcategory = "toolchains") {
       description: "Centralized C++ quality tool policies for S-CORE, including sanitizer configurations and safety-critical guidelines.",
       topics+: [
         "cpp",
@@ -963,7 +966,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       forked_repository:"bazel-contrib/bcr-ui",
     },
 
-    newInfrastructureTeamRepo("rules_rust", subcategory = "toolchain") {
+    newInfrastructureTeamRepo("rules_rust", subcategory = "toolchains") {
       description: "S-CORE fork of bazelbuild/rules_rust",
       forked_repository: "bazelbuild/rules_rust",
       default_branch: "score_main",
