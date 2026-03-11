@@ -168,12 +168,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     custom_properties+: [
       # This is used to categorize repositories for the auto-generated organization README file.
-      # The value is expected to be in the format "category.subcategory", but this is not enforced.
       # The subcategory is optional and can be used to further categorize repositories. For example, "infrastructure.bazel" or "modules.communication".
       orgs.newCustomProperty('category') {
         description: "Category used to group repositories in the auto-generated organization README file",
         value_type: "string",
-      }
+      },
+      orgs.newCustomProperty('subcategory') {
+        description: "Subcategory used to further group repositories within a category in the auto-generated organization README file",
+        value_type: "string",
+      },
     ]
   },
   teams+: [
