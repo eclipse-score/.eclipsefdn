@@ -859,15 +859,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           allows_force_pushes: false,
           requires_linear_history: true,
         },
-        orgs.newRepoRuleset('linear_history') {
-          include_refs+: [
-            "~ALL"
-          ],
-          bypass_actors+: [
-            "@eclipse-score/codeowner-lola",
-          ],
-          requires_linear_history: true,
-        },
         block_tagging(
           [
             "*", # block all tag creations
