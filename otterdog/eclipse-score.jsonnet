@@ -375,10 +375,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       value: "pass:bots/automotive.score/github.com/token-hd6722",
     },
     orgs.newOrgSecret('REPO_TOKEN_USERNAME') {
-      value: "pass:bots/automotive.score/repo.eclipse.org/token-username",
+      value: "vault:automotive.score/repo.eclipse.org/token-username",
     },
     orgs.newOrgSecret('REPO_TOKEN_PASSWORD') {
-      value: "pass:bots/automotive.score/repo.eclipse.org/token-password",
+      value: "vault:automotive.score/repo.eclipse.org/token-password",
     },
   ],
   _repositories+:: [
