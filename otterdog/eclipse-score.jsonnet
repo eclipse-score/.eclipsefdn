@@ -125,7 +125,13 @@ local qnx_environments = [
 
 # Repositories that are based on the module_template and offer GitHub Pages for documentation
 # should use this function, as it includes the necessary settings for both.
-local newDependableElementRepo(name) = newScoreRepo(name, pages = true, category = "modules") {
+# Parameters:
+#   name:        Name of the repository.
+#   subcategory: Optional string stored as a "subcategory" custom property alongside "category".
+#                This helper always sets the category to "modules", so the effective
+#                category is conceptually either "modules" (no subcategory) or
+#                "modules.<subcategory>" when a subcategory is given.
+local newDependableElementRepo(name, subcategory = null) = newScoreRepo(name, pages = true, category = "modules", subcategory = subcategory) {
   template_repository: "eclipse-score/module_template",
   environments+: qnx_environments,
 };
