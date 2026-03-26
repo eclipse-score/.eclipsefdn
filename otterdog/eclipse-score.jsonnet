@@ -667,6 +667,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newScoreRepo('itf') {
       description: "Integration Testing Framework repository",
+
+      # Deviations from standard newScoreRepo settings:
+      allow_merge_commit: true,
+      allow_rebase_merge: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -750,7 +754,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Score project main repository",
 
       # Deviations from standard newScoreRepo settings:
+      allow_rebase_merge: true,
       allow_merge_commit: true,
+      has_projects: true,
       allow_update_branch: false,
       code_scanning_default_languages+: [
         "actions",
@@ -923,6 +929,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Bazel toolchains for QNX",
 
       # Deviations from standard newScoreRepo settings:
+      environments+: qnx_environments,
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -1288,6 +1295,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('config_management') {
       description: "Repository for config management",
 
+      # Deviations from standard dependable element repository settings:
+      allow_rebase_merge: true,
+      allow_update_branch: false,
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
