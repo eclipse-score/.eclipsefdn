@@ -1198,14 +1198,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('inc_os_autosd', subcategory = "incubation") {
       description: "Incubation repository for AutoSD Development Platform",
     },
-    newDependableElementRepo('bazel-tools-python') {
+    newScoreRepo('bazel-tools-python') {
       description: "Repository for python static code checker",
     },
     newDependableElementRepo('inc_config_management') {
       archived: true,
       description: "Incubation repository for config management",
     },
-    newDependableElementRepo('bazel-tools-cc') {
+    newScoreRepo('bazel-tools-cc') {
       description: "Repository for clang-tidy based static code checker",
     },
     newDependableElementRepo('logging') {
