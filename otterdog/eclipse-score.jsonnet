@@ -665,12 +665,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         orgs.newEnvironment('github-pages'),
       ],
     },
-    newScoreRepo('itf') {
+    newInfrastructureTeamRepo('itf', subcategory = "integration") {
       description: "Integration Testing Framework repository",
 
       # Deviations from standard newScoreRepo settings:
-      allow_merge_commit: true,
-      allow_rebase_merge: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -911,11 +909,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    newScoreRepo('rules_imagefs', false) {
+    newInfrastructureTeamRepo('rules_imagefs', subcategory = "integration") {
       description: "Repository for Image FileSystem Bazel rules and toolchains definitions",
       environments+: qnx_environments,
     },
-    newScoreRepo('bazel_cpp_toolchains', false) {
+    newInfrastructureTeamRepo('bazel_cpp_toolchains', subcategory = "toolchains") {
       description: "Bazel C/C++ toolchain configuration repository",
       environments+: qnx_environments,
     },
@@ -969,11 +967,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Reusable GitHub Workflows for CI/CD automation",
     },
 
-    newInfrastructureTeamRepo('docs-as-code', pages = true) {
+    newInfrastructureTeamRepo('docs-as-code', pages = true, subcategory = "tooling") {
       description: "Docs-as-code tooling for Eclipse S-CORE",
 
-      gh_pages_build_type: "workflow",
-      homepage: "https://eclipse-score.github.io/docs-as-code",
       environments+: [
         orgs.newEnvironment('copilot'),
       ],
@@ -1188,7 +1184,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "All general information related to the development and integration infrastructure",
     },
 
-    newScoreRepo('testing_tools') {
+    newInfrastructureTeamRepo('testing_tools', subcategory = "integration") {
       description: "Repository for testing utilities",
     },
 
@@ -1212,7 +1208,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       archived: true,
       description: "Incubation repository for config management",
     },
-    newScoreRepo('bazel-tools-cc') {
+    newInfrastructureTeamRepo('bazel-tools-cc', subcategory = "toolchains") {
       description: "Repository for clang-tidy based static code checker",
     },
     newDependableElementRepo('logging') {
