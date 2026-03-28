@@ -104,6 +104,7 @@ local qnx_enabled_repos = [
     "logging",
     "orchestrator",
     "persistency",
+    "qnx_unit_tests",
     "reference_integration",
     "rules_imagefs",
     "scrample",
@@ -1307,6 +1308,49 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           allows_force_pushes: false,
           requires_linear_history: true,
+        },
+      ],
+    },
+    orgs.newRepo('qnx_unit_tests') {
+      allow_merge_commit: true,
+      allow_update_branch: false,
+      code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages: [
+        "actions",
+      ],
+      description: "Infrastructure for running unit tests in QNX VMs",
+      has_discussions: false,
+      has_projects: false,
+      has_wiki: false,
+      topics+: [
+        "qnx",
+        "score",
+        "testing"
+      ],
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+          required_status_checks+: {
+            status_checks+: [
+              "qnx-ut-build-all",
+              "qnx-ut-examples-build-all",
+            ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "MERGE",
+          },
+        },
+      ],
+      environments: [
+        orgs.newEnvironment('workflow-approval') {
+          deployment_branch_policy: "all",
+          reviewers+: [
+            "@eclipse-score/automotive-score-committers",
+          ],
+          wait_timer: 1,
         },
       ],
     }
