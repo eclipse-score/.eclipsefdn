@@ -26,13 +26,39 @@ local main_branch_protection_rule = orgs.newBranchProtectionRule('main') {
   required_approving_review_count: 1,
 };
 
-local block_tagging(tags, bypass) =
+local branch_protection_ruleset(name, required_status_checks = [], merge_queue = false) =
+ local mq = if merge_queue && !std.isEmpty(required_status_checks) then 
+    error "Merge queue cannot be enabled without required status checks"
+  else if merge_queue then
+    orgs.newMergeQueue() {
+      merge_method: "SQUASH",
+    }
+  else null;
+
+  orgs.newRepoRuleset(name) {
+    include_refs+: [
+      "~DEFAULT_BRANCH",
+      "refs/heads/release/**/*",
+    ],
+    required_pull_request+: default_review_rule,
+    required_status_checks+: {
+      status_checks+: required_status_checks,
+    },
+    allows_force_pushes: false,
+    requires_linear_history: true,
+    required_merge_queue: mq,
+  };
+
+
+local tag_protection_ruleset(tags, bypass) =
  orgs.newRepoRuleset('tags-protection') {
   target: "tag",
   # bot has admin access anyway, but let's be explicit
   bypass_actors+: bypass, # + ["@eclipse-score-bot"] # Bypass_actors cannot be individuals, only role, team, or App: https://otterdog.readthedocs.io/en/latest/reference/organization/repository/bypass-actor/
   include_refs+: [std.format("refs/tags/%s", tag) for tag in tags],
-  allows_creations: false,
+
+  # if there are no bypass actors, we allow creations to everyone
+  allows_creations: std.isEmpty(bypass),
   allows_deletions: false,
   allows_updates: false,
 
@@ -67,19 +93,19 @@ local newScoreRepo(name, pages = false, category = null, subcategory = null) =
     allow_merge_commit: false,
     allow_squash_merge: true,
 
+    # Default titles and messages for squash merges.
+    squash_merge_commit_title: "PR_TITLE",
+    squash_merge_commit_message: "PR_BODY",
+
     // Remove some features, to avoid having too many options where stuff is located
     has_discussions: false,
     has_projects: false,
     has_wiki: false,
 
-    // Setup the default review rule for main branch.
+    // Setup the default ruleset. Repositories are encouraged to overwrite this by providing a
+    // custom branch_ruleset with the desired settings
     rulesets: [
-      orgs.newRepoRuleset('main') {
-        include_refs+: [
-          "refs/heads/main"
-        ],
-        required_pull_request+: default_review_rule,
-      },
+      branch_protection_ruleset('basic-branch-protection'),
     ],
 
     custom_properties+: cat,
@@ -423,15 +449,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "score"
       ],
       rulesets+: [
-        block_tagging(
-          [
-            "*", # block all tag creations
-            # alternatively, specify specific tags to block here, e.g. "v*"
-          ],
-          [
-            "@eclipse-score/infrastructure-maintainers",
-          ]
-        ),
+        # block all tag creations by non maintainers
+        tag_protection_ruleset(tags = ["*"], bypass = ["@eclipse-score/infrastructure-maintainers"]),
       ],
     },
 
@@ -529,20 +548,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       code_scanning_default_languages+: [
         "actions",
       ],
-      branch_protection_rules: [
-        main_branch_protection_rule
-      ],
-      rulesets: [
-          orgs.newRepoRuleset('main') {
-            include_refs+: [
-              "refs/heads/main"
-            ],
-            required_pull_request+: default_review_rule,
-            allows_force_pushes: false,
-            requires_linear_history: true,
-          },
-        ],
-
     },
     newScoreRepo('score-crates') {
       allow_merge_commit: true,
@@ -553,15 +558,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       //   "actions",
       // ],
       description: "Repository to provide a defined list of rust crates to be used as bzl_mods",
-      homepage: "https://eclipse-score.github.io/score-crates",
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-        },
-      ],
     },
     orgs.newRepo('inc_mw_com') {
       allow_merge_commit: true,
@@ -599,28 +595,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
     newDependableElementRepo('persistency') {
-      aliases: [
-        "inc_mw_per",
-      ],
       description: "Repository for persistency framework",
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
       allow_rebase_merge: true,
       allow_update_branch: true,
-      branch_protection_rules: [
-        main_branch_protection_rule
-      ],
-      rulesets: [
-          orgs.newRepoRuleset('main') {
-            include_refs+: [
-              "refs/heads/main"
-            ],
-            required_pull_request+: default_review_rule,
-            allows_force_pushes: false,
-            requires_linear_history: true,
-          },
-        ],
     },
     orgs.newRepo('inc_process_test_management') {
       allow_merge_commit: true,
@@ -671,22 +651,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       # Deviations from standard newScoreRepo settings:
       allow_merge_commit: true,
       allow_rebase_merge: true,
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
+      rulesets+: [
+        branch_protection_ruleset('merge queue',
+          required_status_checks = [
+            "check-approvals",
+            "itf-build-all",
+            "itf-examples-build-all",
           ],
-          required_pull_request+: default_review_rule,
-          required_status_checks+: {
-            status_checks+: [
-              "itf-build-all",
-              "itf-examples-build-all",
-            ],
-          },
-          required_merge_queue: orgs.newMergeQueue() {
-            merge_method: "SQUASH",
-          },
-        },
+          merge_queue = true,
+        ),
       ],
       environments+: qnx_environments,
     },
@@ -715,34 +688,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         main_branch_protection_rule
       ],
       rulesets: [
-          orgs.newRepoRuleset('main') {
-            include_refs+: [
-              "refs/heads/main"
-            ],
-            required_pull_request+: default_review_rule,
-            allows_force_pushes: false,
-            requires_linear_history: true,
-          },
-          orgs.newRepoRuleset('release') {
+          branch_protection_ruleset('release approval', required_status_checks = ["check-approvals"]) {
             include_refs+: [
               "refs/heads/release/**/*"
             ],
-            allows_force_pushes: false,
           },
-          orgs.newRepoRuleset('releases') {
-            include_refs+: [
-              "refs/heads/releases/**/*"
-            ],
-            required_pull_request+: default_review_rule,
-            allows_creations: true,
-            allows_force_pushes: false,
-            requires_linear_history: true,
-            required_status_checks+: {
-            status_checks+: [
-                "check-approvals",
-              ],
-            },
-          },
+          tag_protection_ruleset(tags = ["*"])
         ],
     },
 
@@ -802,16 +753,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_update_branch: false,
       code_scanning_default_setup_enabled: false,
       rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
+        branch_protection_ruleset('main') {
           bypass_actors+: [
             "@eclipse-score/codeowner-baselibs",
           ],
-          allows_force_pushes: false,
-          requires_linear_history: true,
         },
       ],
     },
@@ -836,29 +781,22 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       code_scanning_default_setup_enabled: true,
       has_discussions: true,
       rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-          bypass_actors+: [
-            "@eclipse-score/codeowner-lola:pull_request",
-          ],
-          allows_force_pushes: false,
-          required_status_checks+: {
-            status_checks+: [
+        branch_protection_ruleset(required_status_checks = [
               "build_and_test_host",
               "build_and_test_qnx",
               "build_and_test_asan_ubsan_lsan",
               "build_and_test_tsan",
             ],
-          },
+          ) {
+          bypass_actors+: [
+            "@eclipse-score/codeowner-lola:pull_request",
+          ],
           required_merge_queue: orgs.newMergeQueue() {
             merge_method: "MERGE",
             status_check_timeout: 120,
           },
         },
-        block_tagging(
+        tag_protection_ruleset(
           [
             "*", # block all tag creations
           ],
@@ -931,20 +869,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       # Deviations from standard newScoreRepo settings:
       environments+: qnx_environments,
       rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-          required_status_checks+: {
+        branch_protection_ruleset('main',
+          required_status_checks = {
             status_checks+: [
               "toolchains-qnx-build-all",
             ],
           },
-          required_merge_queue: orgs.newMergeQueue() {
-            merge_method: "MERGE",
-          },
-        },
+        ),
       ],
     },
     newInfrastructureTeamRepo('toolchains_rust', subcategory = "toolchains") {
