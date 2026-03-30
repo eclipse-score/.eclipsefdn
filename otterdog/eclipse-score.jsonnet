@@ -434,6 +434,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ]
         ),
       ],
+      environments: [
+        orgs.newEnvironment('copilot'),
+      ],
     },
 
     newScoreRepo('eclipse-score.github.io', pages = true, category = "website") {
@@ -666,7 +669,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         orgs.newEnvironment('github-pages'),
       ],
     },
-    newScoreRepo('itf') {
+    newInfrastructureTeamRepo('itf', subcategory = "integration") {
       description: "Integration Testing Framework repository",
 
       # Deviations from standard newScoreRepo settings:
@@ -685,7 +688,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
-            merge_method: "SQUASH",
+            merge_method: "MERGE",
           },
         },
       ],
@@ -694,7 +697,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newInfrastructureTeamRepo('bazel_platforms', subcategory = "toolchains") {
       description: "Bazel platform definitions used by S-CORE modules",
     },
-    newScoreRepo('process_description', pages = true) {
+    newScoreRepo('process_description', pages = true, category = "general") {
       description: "Score project process description",
 
       // Deviations from standard newScoreRepo settings:
@@ -708,7 +711,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       topics+: [
         "integration",
       ],
-      environments+: qnx_environments,
+      environments+: qnx_environments + 
+        [orgs.newEnvironment('copilot')],
       # Deviations from standard dependable element repository settings:
       allow_rebase_merge: true,
       allow_update_branch: true,
@@ -751,7 +755,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "OS Images for testing and deliveries",
     },
 
-    newScoreRepo('score', pages = true) {
+    newScoreRepo('score', pages = true, category = "general") {
       description: "Score project main repository",
 
       # Deviations from standard newScoreRepo settings:
@@ -1206,6 +1210,16 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newScoreRepo('bazel-tools-python') {
       description: "Repository for python static code checker",
+    } 
+    + { template_repository: "eclipse-score/module_template", 
+        environments: [
+        orgs.newEnvironment('github-pages') {
+          branch_policies+: [
+            "main"
+          ],
+          deployment_branch_policy: "selected",
+        },
+      ],
     },
     newDependableElementRepo('inc_config_management') {
       archived: true,
@@ -1213,6 +1227,17 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newInfrastructureTeamRepo('bazel-tools-cc', subcategory = "toolchains") {
       description: "Repository for clang-tidy based static code checker",
+    }
+    + { 
+      template_repository: "eclipse-score/module_template" ,
+      environments: [
+        orgs.newEnvironment('github-pages') {
+          branch_policies+: [
+            "main"
+          ],
+          deployment_branch_policy: "selected",
+        },
+      ],
     },
     newDependableElementRepo('logging') {
       description: "Repository for logging daemon",
@@ -1249,6 +1274,26 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newDependableElementRepo('inc_someip_gateway', subcategory = "incubation") {
       description: "Incubation repository for SOME/IP gateway feature",
+      delete_branch_on_merge: true,
+      squash_merge_commit_title: "PR_TITLE",
+      squash_merge_commit_message: "PR_BODY",
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "~DEFAULT_BRANCH"
+          ],
+          required_pull_request+: default_review_rule,
+          required_status_checks+: {
+            status_checks+: [
+              "ci/can_merge",
+              "ci_pull_request_target/can_merge",
+            ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "SQUASH",
+          },
+        },
+      ],
     },
     newDependableElementRepo('inc_diagnostics', subcategory = "incubation") {
       description: "Incubation repository for diagnostics feature",
