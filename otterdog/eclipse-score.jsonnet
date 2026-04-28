@@ -401,18 +401,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
   ],
   _repositories+:: [
-    newInfrastructureTeamRepo('.github') {
+    newInfrastructureTeamRepo('.github', pages = true) {
       description: "Houses the organisation README",
-      allow_rebase_merge: true,
-      dependabot_security_updates_enabled: false,
-      has_projects: true,
-      has_wiki: true,
       code_scanning_default_setup_enabled: true,
       code_scanning_default_languages+: [
         "actions",
-      ],
-      topics+: [
-        "score"
+        "python",
       ],
     },
 
