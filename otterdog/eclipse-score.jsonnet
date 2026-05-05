@@ -303,12 +303,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     orgs.newTeam('codeowner-baselibs') {
       members+: [
-        "castler",
-        "hoe-jo",
-        "LittleHuba",
-        "ramceb",
-        "nradakovic",
         "4og",
+        "antonkri"
       ],
     },
     orgs.newTeam('codeowner-baselibs_rust') {
@@ -793,12 +789,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       # Deviations from standard dependable element repository settings:
       template_repository: null,
       has_projects: true,
-      has_wiki: true,
+      has_wiki: false,
       dependabot_security_updates_enabled: false,
       allow_rebase_merge: true,
-      allow_merge_commit: false,
-      allow_update_branch: false,
+      allow_merge_commit: true,
+      allow_update_branch: true,
       code_scanning_default_setup_enabled: false,
+      has_discussions: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
@@ -809,7 +806,19 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/codeowner-baselibs",
           ],
           allows_force_pushes: false,
-          requires_linear_history: true,
+          required_status_checks+: {
+            status_checks+: [
+              "Restricted file changes",
+              "Build and Test bl-aarch64-linux",
+              "Build and Test bl-x86_64-linux",
+              "Build and Test bl-aarch64-qnx / Build QNX target",
+              "Build and Test bl-x86_64-qnx / Build QNX target",
+            ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "MERGE",
+            status_check_timeout: 120,
+          },
         },
       ],
     },
