@@ -656,7 +656,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         orgs.newEnvironment('github-pages'),
       ],
     },
-    newInfrastructureTeamRepo('itf', subcategory = "integration") {
+    newInfrastructureTeamRepo('itf', pages = true, subcategory = "integration") {
       description: "Integration Testing Framework repository",
 
       # Deviations from standard newScoreRepo settings:
