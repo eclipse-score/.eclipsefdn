@@ -341,6 +341,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "wei2374",
       ],
     },
+    orgs.newTeam('codeowner-reference_integration') {
+      members+: [
+        "pawelrutkaq",
+        "PiotrKorkus",
+        "AlexanderLanin",
+      ],
+    },
   ],
   variables+: [
     orgs.newOrgVariable("ECLIPSE_PROJECT") {
@@ -727,6 +734,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               "refs/heads/releases/**/*"
             ],
             required_pull_request+: default_review_rule,
+            bypass_actors+: [
+                "@eclipse-score/codeowner-reference_integration",
+              ],
             allows_creations: true,
             allows_force_pushes: false,
             requires_linear_history: true,
