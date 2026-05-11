@@ -213,10 +213,8 @@ local newDependableElementRepo(name, subcategory = null) = newScoreRepo(name, pa
 local newInfrastructureTeamRepo(name, pages = false, subcategory = null) =
   newScoreRepo(name, pages = pages, category = "infrastructure", subcategory = subcategory)
   {
-    # enable github code scanning for all infrastructure repositories by default
+    # enable github code scanning for all infrastructure repositories
     code_scanning_default_setup_enabled: true,
-
-    # typical candidates are GitHub Actions and Python scripts for automation, but this can be adjusted as needed per repository
     code_scanning_default_languages+: std.get(active_languages, name, []),
   };
 
