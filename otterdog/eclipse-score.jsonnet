@@ -217,7 +217,7 @@ local newInfrastructureTeamRepo(name, pages = false, subcategory = null) =
     code_scanning_default_setup_enabled: true,
 
     # typical candidates are GitHub Actions and Python scripts for automation, but this can be adjusted as needed per repository
-    code_scanning_default_languages+: active_languages.get(name, []),
+    code_scanning_default_languages+: std.get(active_languages, name, []),
   };
 
 # Publication to pypi can only be triggered by infrastructure-maintainers and only from main branch or tag
