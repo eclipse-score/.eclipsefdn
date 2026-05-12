@@ -1164,6 +1164,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('bazel-tools-cc') {
       description: "Repository for clang-tidy based static code checker",
     },
+    newDependableElementRepo('ai-plugin-marketplace') {
+      description: "Repository for AI Marketplace metadata, channels, pinning strategy",
+    },
+    newDependableElementRepo('ai-plugins') {
+      description: "Repository for AI Plugins rolled out in the marketplace",
+    },
+    
     newDependableElementRepo('logging') {
       description: "Repository for logging daemon",
 
