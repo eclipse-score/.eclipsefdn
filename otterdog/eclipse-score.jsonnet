@@ -1251,10 +1251,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    newDependableElementRepo('ai-plugin-marketplace') {
+    newScoreRepo('ai-plugin-marketplace') {
       description: "Repository for AI Marketplace metadata, channels, pinning strategy",
     },
-    newDependableElementRepo('ai-plugins') {
+    newScoreRepo('ai-plugins') {
       description: "Repository for AI Plugins rolled out in the marketplace",
     },
     
