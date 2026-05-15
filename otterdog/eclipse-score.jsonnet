@@ -765,9 +765,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "actions",
       ],
       code_scanning_default_setup_enabled: true,
-      gh_pages_build_type: "legacy",
-      gh_pages_source_branch: "gh-pages",
-      gh_pages_source_path: "/",
       has_discussions: true,
       has_wiki: true,
     },
@@ -837,7 +834,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
-      gh_pages_build_type: "disabled",
+      gh_pages_build_type: "workflow",
       has_projects: true,
       homepage: null,
       dependabot_security_updates_enabled: false,
