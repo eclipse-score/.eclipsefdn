@@ -1248,11 +1248,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    newScoreRepo('ai-plugin-marketplace') {
-      description: "Repository for AI Marketplace metadata, channels, pinning strategy",
-    },
-    newScoreRepo('ai-plugins') {
-      description: "Repository for AI Plugins rolled out in the marketplace",
+    newScoreRepo('mcp_servers') {
+      description: "Repository for MCP servers",
     },
     
     newDependableElementRepo('logging') {
