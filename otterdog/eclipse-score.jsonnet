@@ -1248,7 +1248,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
     },
-    newScoreRepo('mcp_servers') {
+    newScoreRepo('mcp-servers') {
       description: "Repository for MCP servers",
     },
     
