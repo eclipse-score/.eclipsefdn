@@ -98,6 +98,7 @@ local qnx_enabled_repos = [
     "communication",
     "ferrocene_toolchain_builder",
     "inc_someip_gateway",
+    "inc_time",
     "itf",
     "kyron",
     "lifecycle",
@@ -406,7 +407,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       code_scanning_default_setup_enabled: true,
       code_scanning_default_languages+: [
         "actions",
-        "python",
+        "python"
       ],
     },
 
