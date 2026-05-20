@@ -418,16 +418,17 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "registry",
         "score"
       ],
-      rulesets+: [
-        block_tagging(
-          [
-            "*", # block all tag creations
-            # alternatively, specify specific tags to block here, e.g. "v*"
-          ],
-          [
-            "@eclipse-score/infrastructure-maintainers",
-          ]
-        ),
+      rulesets: [
+        # block all tag creations, except for infrastructure maintainers group
+        block_tagging(["*"], ["@eclipse-score/infrastructure-maintainers"]),
+
+        # overwrite default ruleset and allow owners (eclipse-score-bot) to push directly to main
+        orgs.newRepoRuleset('main') {
+          include_refs: ["~DEFAULT_BRANCH"],
+          required_pull_request: default_review_rule,
+          bypass_actors: ["#Owner"],
+          requires_linear_history: true,
+        },
       ],
       environments: [
         orgs.newEnvironment('copilot'),
