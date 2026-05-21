@@ -422,11 +422,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         # block all tag creations, except for infrastructure maintainers group
         block_tagging(["*"], ["@eclipse-score/infrastructure-maintainers"]),
 
-        # overwrite default ruleset and allow owners (eclipse-score-bot) to push directly to main
+        # overwrite default ruleset and allow admins (eclipse-score-bot) to push directly to main
         orgs.newRepoRuleset('main') {
           include_refs: ["~DEFAULT_BRANCH"],
           required_pull_request: default_review_rule,
-          bypass_actors: ["#Owner"],
+          bypass_actors: ["#OrganizationAdmin"],
           requires_linear_history: true,
         },
       ],
