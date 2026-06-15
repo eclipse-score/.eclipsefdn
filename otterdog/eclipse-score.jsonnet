@@ -416,6 +416,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "AlexanderLanin",
       ],
     },
+    orgs.newTeam('communication-triage') {
+      members+: [
+        "gdadunashvili",
+        "sahithi-nukala",
+        "AAmbuj",
+        "soldier-sky",
+        "Rahul-Sutariya",
+      ],
+    },
   ],
   variables+: [
     orgs.newOrgVariable("ECLIPSE_PROJECT") {
@@ -896,6 +905,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     newDependableElementRepo('communication') {
       description: "Repository for the communication module LoLa",
+      teams+: [
+        {
+          name: 'communication-triage',
+          permission: 'triage',
+        },
+      ],
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
