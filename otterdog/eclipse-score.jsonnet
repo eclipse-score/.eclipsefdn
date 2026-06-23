@@ -69,7 +69,7 @@ local active_languages = {
   "ferrocene_toolchain_builder": ['actions', 'python'],
   "inc_daal": ['actions', 'c-cpp'],
   "inc_diagnostics": ['actions', 'c-cpp'],
-  "inc_os_autosd": ['actions', 'c-cpp'],
+  "os_autosd": ['actions', 'c-cpp'],
   "inc_security_crypto": ['actions', 'c-cpp', 'python'],
   "inc_someip_gateway": ['actions', 'c-cpp', 'python'],
   "inc_time": ['actions', 'c-cpp', 'python'],
@@ -1292,8 +1292,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('inc_daal', subcategory = "incubation") {
       description: "Incubation repository for DAAL module",
     },
-    newDependableElementRepo('inc_os_autosd', subcategory = "incubation") {
-      description: "Incubation repository for AutoSD Development Platform",
+    newInfrastructureTeamRepo('os_autosd') {
+      aliases: [
+        "inc_os_autosd",
+      ],
+      description: 'Repository for the AutoSD Platform and associated Tooling',
     },
     newScoreRepo('bazel-tools-python') {
       description: "Repository for python static code checker",
