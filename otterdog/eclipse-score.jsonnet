@@ -160,6 +160,7 @@ local qnx_enabled_repos = [
     "bazel_cpp_toolchains",
     "communication",
     "ferrocene_toolchain_builder",
+    "inc_security_crypto",
     "inc_someip_gateway",
     "itf",
     "kyron",
