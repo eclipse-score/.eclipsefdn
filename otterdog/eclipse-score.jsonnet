@@ -765,6 +765,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_rebase_merge: true,
       allow_update_branch: false,
+      environments: [
+        orgs.newEnvironment('github-pages') {
+          deployment_branch_policy: "all",
+        },
+      ],
     },
     newInfrastructureTeamRepo('reference_integration', true, subcategory = "integration") {
       description: "Score project integration repository",
@@ -927,11 +932,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           allows_force_pushes: false,
           required_status_checks+: {
             status_checks+: [
-              "build_and_test_host",
-              "build_and_test_qnx",
-              "build_and_test_asan_ubsan_lsan",
-              "build_and_test_tsan",
-              "clang-tidy",
+              "GCC15 / Build & Test",
+              "QCC - Build & Test",
+              "Address & Undefined Behavior Sanitizer / Build & Test",
+              "Thread Sanitizer / Build & Test",
+              "Clang-Tidy / Build & Test",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
