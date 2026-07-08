@@ -50,7 +50,7 @@ local active_languages = {
   "baselibs": ['actions', 'c-cpp'],
   "bazel-tools-cc": ['actions', 'c-cpp', 'python'],
   "bazel-tools-python": ['actions', 'python'],
-  "bazel_cpp_toolchains": ['actions', 'python'],
+  "bazel_cpp_toolchains": ['actions', 'python', 'c-cpp'],
   "bazel_registry": ['actions', 'python'],
   "bazel_registry_ui": ['actions', 'javascript-typescript'],
   "cicd-actions": ['actions', 'javascript-typescript'],
@@ -912,6 +912,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_rebase_merge: true,
       allow_merge_commit: true,
       allow_update_branch: true,
+      private_vulnerability_reporting_enabled: true,
       code_scanning_default_languages+: [
         "actions",
         "c-cpp",
@@ -1302,6 +1303,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "inc_os_autosd",
       ],
       description: 'Repository for the AutoSD Platform and associated Tooling',
+      gh_pages_build_type: "workflow",
+      template_repository: "eclipse-score/module_template",
     },
     newScoreRepo('bazel-tools-python') {
       description: "Repository for python static code checker",
