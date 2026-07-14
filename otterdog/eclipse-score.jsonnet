@@ -1064,6 +1064,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
+    newInfrastructureTeamRepo('utils', pages = false, subcategory = "tooling") {
+      description: "Gathering of different utilities used throughout S-CORE",
+
+      environments+: [
+        orgs.newEnvironment('copilot'),
+      ],
+    },
+
     newDependableElementRepo('orchestrator') {
       description: "Orchestration framework & Safe async runtime for Rust",
 
