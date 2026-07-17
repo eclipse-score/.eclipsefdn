@@ -50,7 +50,7 @@ local active_languages = {
   "baselibs": ['actions', 'c-cpp'],
   "bazel-tools-cc": ['actions', 'c-cpp', 'python'],
   "bazel-tools-python": ['actions', 'python'],
-  "bazel_cpp_toolchains": ['actions', 'python'],
+  "bazel_cpp_toolchains": ['actions', 'python', 'c-cpp'],
   "bazel_registry": ['actions', 'python'],
   "bazel_registry_ui": ['actions', 'javascript-typescript'],
   "cicd-actions": ['actions', 'javascript-typescript'],
@@ -69,10 +69,9 @@ local active_languages = {
   "ferrocene_toolchain_builder": ['actions', 'python'],
   "inc_daal": ['actions', 'c-cpp'],
   "inc_diagnostics": ['actions', 'c-cpp'],
-  "inc_os_autosd": ['actions', 'c-cpp'],
+  "os_autosd": ['actions', 'c-cpp'],
   "inc_security_crypto": ['actions', 'c-cpp', 'python'],
   "inc_someip_gateway": ['actions', 'c-cpp', 'python'],
-  "inc_time": ['actions', 'c-cpp', 'python'],
   "infrastructure": ['actions'],
   "itf": ['actions', 'python'],
   "kyron": ['actions', 'python'],
@@ -97,6 +96,7 @@ local active_languages = {
   "score_rust_policies": ['actions'],
   "scrample": ['actions', 'c-cpp', 'go'],
   "testing_tools": ['actions', 'c-cpp', 'python'],
+  "time": ['actions', 'c-cpp', 'python'],
   "toolchains_gcc": ['c-cpp'],
   "toolchains_gcc_packages": ['actions'],
   "toolchains_qnx": ['actions', 'python'],
@@ -160,8 +160,8 @@ local qnx_enabled_repos = [
     "bazel_cpp_toolchains",
     "communication",
     "ferrocene_toolchain_builder",
+    "inc_security_crypto",
     "inc_someip_gateway",
-    "inc_time",
     "itf",
     "kyron",
     "lifecycle",
@@ -172,6 +172,7 @@ local qnx_enabled_repos = [
     "reference_integration",
     "rules_imagefs",
     "scrample",
+    "time",
     "toolchains_qnx",
 ];
 
@@ -487,7 +488,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         # overwrite default ruleset and allow admins (eclipse-score-bot) to push directly to main
         orgs.newRepoRuleset('main') {
           include_refs: ["~DEFAULT_BRANCH"],
-          required_pull_request: default_review_rule,
+          required_pull_request+: default_review_rule,
           bypass_actors: ["#OrganizationAdmin"],
           requires_linear_history: true,
         },
@@ -601,6 +602,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       //   "actions",
       // ],
       description: "Repository to provide a defined list of rust crates to be used as bzl_mods",
+      gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/score-crates",
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -676,6 +678,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_merge_commit: true,
       allow_rebase_merge: true,
       allow_update_branch: false,
+      environments: [
+        orgs.newEnvironment('github-pages') {
+          deployment_branch_policy: "all",
+        },
+      ],
     },
 
     newInfrastructureTeamRepo('reference_integration', true, subcategory = "integration") {
@@ -822,13 +829,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_rebase_merge: true,
       allow_merge_commit: true,
       allow_update_branch: true,
+      private_vulnerability_reporting_enabled: true,
       code_scanning_default_languages+: [
         "actions",
         "c-cpp",
         "python",
         # "rust", # not yet supported by GH API: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#update-a-code-scanning-default-setup-configuration
       ],
-      code_scanning_default_setup_enabled: true,
+      code_scanning_default_setup_enabled: false,
       has_discussions: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -842,11 +850,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           allows_force_pushes: false,
           required_status_checks+: {
             status_checks+: [
-              "build_and_test_host",
-              "build_and_test_qnx",
-              "build_and_test_asan_ubsan_lsan",
-              "build_and_test_tsan",
-              "clang-tidy",
+              "GCC15 / Build & Test",
+              "QCC - Build & Test",
+              "Address & Undefined Behavior Sanitizer / Build & Test",
+              "Thread Sanitizer / Build & Test",
+              "Clang-Tidy / Build & Test",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
@@ -1116,8 +1124,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Incubation repository for DAAL module",
     },
 
-    newDependableElementRepo('inc_os_autosd', subcategory = "incubation") {
-      description: "Incubation repository for AutoSD Development Platform",
+    newInfrastructureTeamRepo('os_autosd') {
+      aliases: [
+        "inc_os_autosd",
+      ],
+      description: 'Repository for the AutoSD Platform and associated Tooling',
+      gh_pages_build_type: "workflow",
+      template_repository: "eclipse-score/module_template",
     },
 
     newScoreRepo('bazel-tools-python') {
@@ -1239,11 +1252,30 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         ],
     },
 
-    newDependableElementRepo('inc_time', subcategory = "incubation") {
-      description: "incubation repo for time sync module",
+    newDependableElementRepo('time') {
+      aliases: [
+        "inc_time",
+      ],
+      description: "Time synchronization module",
 
       # Deviations from standard dependable element repository settings:
       allow_merge_commit: true,
+      allow_update_branch: true,
+      allow_rebase_merge: true,
+
+      branch_protection_rules: [
+        main_branch_protection_rule
+      ],
+      rulesets: [
+          orgs.newRepoRuleset('main') {
+            include_refs+: [
+              "refs/heads/main"
+            ],
+            required_pull_request+: default_review_rule,
+            allows_force_pushes: false,
+            requires_linear_history: true,
+          },
+      ],
     },
 
     newDependableElementRepo('config_management') {
