@@ -883,6 +883,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           secret: "pass:bots/automotive.score/readthedocs.org/webhook_secret",
         },
       ],
+      secrets: [
+        orgs.newRepoSecret('UBUNTU_SNAPSHOT_MIRROR_URL') {
+          value: "********",
+        },
+      ],
     },
 
     newInfrastructureTeamRepo('rules_imagefs', subcategory = "integration") {
