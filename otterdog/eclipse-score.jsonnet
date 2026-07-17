@@ -920,7 +920,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "python",
         # "rust", # not yet supported by GH API: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#update-a-code-scanning-default-setup-configuration
       ],
-      code_scanning_default_setup_enabled: true,
+      code_scanning_default_setup_enabled: false,
       has_discussions: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
