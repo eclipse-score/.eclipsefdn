@@ -861,6 +861,21 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             merge_method: "MERGE",
             status_check_timeout: 120,
           },
+          # Block merging PRs that introduce new clang-tidy findings, using
+          # GitHub Code Scanning's own new-vs-baseline verdict (rather than
+          # a bespoke pass/fail computed in the Clang-Tidy workflow itself)
+          # as the source of truth. `alerts_threshold: "errors"` only blocks
+          # on error-severity findings (per `WarningsAsErrors` in
+          # `.clang-tidy`, currently `clang-analyzer-*`); the many
+          # warning-severity findings (style/modernize checks) do not block
+          # merging. `security_alerts_threshold: "none"` since clang-tidy
+          # results are not tagged with a security-severity in the uploaded
+          # SARIF.
+          required_code_scanning: {
+            code_scanning_tools: [
+              "ClangTidy:none:errors",
+            ],
+          },
         },
         block_tagging(
           [
