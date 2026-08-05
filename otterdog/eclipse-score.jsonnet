@@ -854,7 +854,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               "QCC - Build & Test",
               "Address & Undefined Behavior Sanitizer / Build & Test",
               "Thread Sanitizer / Build & Test",
-              "Clang-Tidy / Build & Test",
+              "Linters / clang-tidy",
+              "Linters / clippy",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
