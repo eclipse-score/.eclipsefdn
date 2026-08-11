@@ -77,7 +77,7 @@ local active_languages = {
   "kyron": ['actions', 'python'],
   "lifecycle": ['actions', 'c-cpp'],
   "logging": ['actions', 'c-cpp'],
-  "module_template": ['actions', 'c-cpp', 'python'],
+  "module_template": ['actions', 'c-cpp'],
   "more-disk-space": ['actions', 'javascript-typescript'],
   "nlohmann_json": ['actions', 'c-cpp', 'python'],
   "orchestrator": ['actions', 'python'],
@@ -854,7 +854,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               "QCC - Build & Test",
               "Address & Undefined Behavior Sanitizer / Build & Test",
               "Thread Sanitizer / Build & Test",
-              "Clang-Tidy / Build & Test",
+              "Linters / clang-tidy",
+              "Linters / clippy",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
