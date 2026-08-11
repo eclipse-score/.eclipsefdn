@@ -588,9 +588,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             required_pull_request+: default_review_rule,
             allows_force_pushes: false,
             requires_linear_history: true,
+            required_merge_queue: orgs.newMergeQueue() {
+                merge_method: "SQUASH",
+            },
           },
         ],
-
     },
 
     newScoreRepo('score-crates') {
