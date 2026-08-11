@@ -756,9 +756,34 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newInfrastructureTeamRepo('tooling') {
       description: "Tooling for Eclipse S-CORE",
       gh_pages_build_type: "workflow",
+      homepage: "https://eclipse-score.github.io/tooling/latest/",
       allow_rebase_merge: true,
       environments+: [
         orgs.newEnvironment('copilot'),
+      ],
+      allow_update_branch: true,
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+          required_status_checks+: {
+            status_checks+: [
+              "tooling_checks",
+              "integration_tests (python_basics)",
+              "integration_tests (starpls)",
+              "integration_tests (cr_checker)",
+              "rules_score_tests (rules_score)",
+              "rules_score_tests (seooc_example)",
+              "rules_score_tests (integrator_example)",
+              "rules_score_tests (some_other_library_example)",
+              "formatting-check",
+              # copyright-check calls an external reusable workflow, hence the "caller / callee" job name
+              "copyright-check / copyright-check",
+            ],
+          },
+        },
       ],
     },
 
@@ -1172,7 +1197,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Repository for MCP servers",
     },
 
-    
+
     newDependableElementRepo('logging') {
       description: "Repository for logging daemon",
 
