@@ -926,35 +926,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments+: qnx_environments,
     },
 
-    newInfrastructureTeamRepo('toolchains_gcc', subcategory = "toolchains") {
-      description: "Bazel toolchains for GNU GCC",
-    },
-
     newInfrastructureTeamRepo('toolchains_gcc_packages', subcategory = "toolchains") {
       description: "Bazel toolchains for GNU GCC",
-    },
-
-    newInfrastructureTeamRepo('toolchains_qnx', subcategory = "toolchains") {
-      description: "Bazel toolchains for QNX",
-
-      # Deviations from standard newScoreRepo settings:
-      environments+: qnx_environments,
-      rulesets: [
-        orgs.newRepoRuleset('main') {
-          include_refs+: [
-            "refs/heads/main"
-          ],
-          required_pull_request+: default_review_rule,
-          required_status_checks+: {
-            status_checks+: [
-              "toolchains-qnx-build-all",
-            ],
-          },
-          required_merge_queue: orgs.newMergeQueue() {
-            merge_method: "MERGE",
-          },
-        },
-      ],
     },
 
     newInfrastructureTeamRepo('toolchains_rust', subcategory = "toolchains") {
@@ -1358,6 +1331,35 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
 
     # ---- Archived repositories ----
+
+    newInfrastructureTeamRepo('toolchains_gcc', subcategory = "toolchains") {
+      archived: true,
+      description: "Bazel toolchains for GNU GCC",
+    },
+
+    newInfrastructureTeamRepo('toolchains_qnx', subcategory = "toolchains") {
+      archived: true,
+      description: "Bazel toolchains for QNX",
+
+      # Deviations from standard newScoreRepo settings:
+      environments+: qnx_environments,
+      rulesets: [
+        orgs.newRepoRuleset('main') {
+          include_refs+: [
+            "refs/heads/main"
+          ],
+          required_pull_request+: default_review_rule,
+          required_status_checks+: {
+            status_checks+: [
+              "toolchains-qnx-build-all",
+            ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "MERGE",
+          },
+        },
+      ],
+    },
 
     orgs.newRepo('inc_feo') {
       allow_merge_commit: true,
