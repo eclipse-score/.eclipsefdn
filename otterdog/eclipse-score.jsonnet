@@ -174,6 +174,7 @@ local qnx_enabled_repos = [
     "scrample",
     "time",
     "toolchains_qnx",
+    "config_management",
 ];
 
 
