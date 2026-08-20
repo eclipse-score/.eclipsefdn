@@ -863,6 +863,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
       code_scanning_default_setup_enabled: false,
       has_discussions: true,
+      # Merge commits must contain the PR body for checklist evidence
+      merge_commit_title: "PR_TITLE",
+      merge_commit_message: "PR_BODY",
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
