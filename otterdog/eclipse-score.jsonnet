@@ -884,6 +884,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               "Thread Sanitizer / Build & Test",
               "Linters / clang-tidy",
               "Linters / clippy",
+              "Linters / ruff",
+              "any:review-checklists",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
