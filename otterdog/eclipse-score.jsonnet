@@ -1063,36 +1063,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       # Required status checks are added once the repository has its CI workflows.
     },
 
-    newDependableElementRepo('orchestrator') {
-      description: "Orchestration framework & Safe async runtime for Rust",
-
-      # Deviations from standard dependable element repository settings:
-      allow_rebase_merge: true,
-      dependabot_security_updates_enabled: false,
-      has_projects: true,
-      has_wiki: true,
-      template_repository: null,
-      allow_update_branch: true,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-        "python",
-      ],
-      branch_protection_rules: [
-        main_branch_protection_rule
-      ],
-      rulesets: [
-          orgs.newRepoRuleset('main') {
-            include_refs+: [
-              "refs/heads/main"
-            ],
-            required_pull_request+: default_review_rule,
-            allows_force_pushes: false,
-            requires_linear_history: true,
-          },
-        ],
-    },
-
     newScoreRepo("nlohmann_json", true) {
         aliases: [
           "inc_nlohmann_json",
@@ -1672,6 +1642,37 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('inc_gen_ai') {
       archived: true,
       description: "Incubation repository for Generative AI feature",
+    },
+
+    newDependableElementRepo('orchestrator') {
+      description: "Orchestration framework & Safe async runtime for Rust",
+      archived: true,
+
+      # Deviations from standard dependable element repository settings:
+      allow_rebase_merge: true,
+      dependabot_security_updates_enabled: false,
+      has_projects: true,
+      has_wiki: true,
+      template_repository: null,
+      allow_update_branch: true,
+      code_scanning_default_setup_enabled: true,
+      code_scanning_default_languages+: [
+        "actions",
+        "python",
+      ],
+      branch_protection_rules: [
+        main_branch_protection_rule
+      ],
+      rulesets: [
+          orgs.newRepoRuleset('main') {
+            include_refs+: [
+              "refs/heads/main"
+            ],
+            required_pull_request+: default_review_rule,
+            allows_force_pushes: false,
+            requires_linear_history: true,
+          },
+        ],
     },
   ],
 }
