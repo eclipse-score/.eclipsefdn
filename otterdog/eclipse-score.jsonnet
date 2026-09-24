@@ -177,6 +177,7 @@ local qnx_enabled_repos = [
     "time",
     "toolchains_qnx",
     "config_management",
+    "qnx_sdp",
 ];
 
 
@@ -1403,6 +1404,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         },
       ],
       environments+: qnx_environments,
+    },
+
+    newInfrastructureTeamRepo('qnx_sdp', subcategory = "toolchains") {
+      description: "QNX SDP toolchain",
     },
 
 
