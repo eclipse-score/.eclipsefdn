@@ -1405,6 +1405,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       environments+: qnx_environments,
     },
 
+    newInfrastructureTeamRepo('qnx_sdp', subcategory = "toolchains") {
+      description: "QNX SDP toolchain",
+    },
+
 
     # ---- Archived repositories ----
 
