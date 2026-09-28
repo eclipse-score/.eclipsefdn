@@ -1412,6 +1412,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newInfrastructureTeamRepo('qnx_sdp_pkg', subcategory = "toolchains") {
       description: "QNX SDP artifacts",
       private: true,
+      allow_forking: false,
       team_permissions+: {
         "automotive-score-committers": "push",
         "automotive-score-contributors": "push",
