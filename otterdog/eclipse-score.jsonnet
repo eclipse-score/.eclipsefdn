@@ -856,10 +856,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           required_status_checks+: {
             status_checks+: [
               "Restricted file changes",
-              "Build and Test bl-aarch64-linux",
-              "Build and Test bl-x86_64-linux",
-              "Build and Test bl-aarch64-qnx / Build QNX target",
-              "Build and Test bl-x86_64-qnx / Build QNX target",
+              "Build and Test score-linux-aarch64",
+              "Build and Test score-linux-x86_64",
+              "Build and Test score-qnx-aarch64 / Build QNX target",
+              "Build and Test score-qnx-x86_64 / Build QNX target",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
