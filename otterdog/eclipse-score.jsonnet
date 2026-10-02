@@ -220,9 +220,8 @@ local newDependableElementRepo(name, subcategory = null) = newScoreRepo(name, pa
 local newInfrastructureTeamRepo(name, pages = false, subcategory = null) =
   newScoreRepo(name, pages = pages, category = "infrastructure", subcategory = subcategory)
   {
-    # enable github code scanning for infrastructure repositories that have active languages
-    code_scanning_default_setup_enabled: std.objectHas(active_languages, name),
     code_scanning_default_languages+: std.get(active_languages, name, []),
+    has_projects: true,
   };
 
 # Publication to pypi can only be triggered by infrastructure-maintainers and only from main branch or tag
@@ -482,10 +481,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
   _repositories+:: [
     newInfrastructureTeamRepo('.github', pages = true) {
       description: "Houses the organisation README",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('bazel_registry', subcategory = "tooling") {
       description: "Score project bazel modules registry",
+      code_scanning_default_setup_enabled: true,
+
       topics+: [
         "bazel",
         "registry",
@@ -571,22 +573,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
 
     newDependableElementRepo('lifecycle') {
-      aliases: [
-        "inc_lifecycle",
-      ],
       description: "Repository for the lifecycle feature",
+      code_scanning_default_setup_enabled: false,
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
-      allow_update_branch: true,
-      allow_rebase_merge: true,
-      dependabot_security_updates_enabled: false,
       has_projects: true,
-      has_wiki: true,
-      code_scanning_default_setup_enabled: true,
-      code_scanning_default_languages+: [
-        "actions",
-      ],
+      allow_update_branch: true,
       branch_protection_rules: [
         main_branch_protection_rule
       ],
@@ -660,6 +653,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('itf', pages = true, subcategory = "integration") {
       description: "Integration Testing Framework repository",
+      code_scanning_default_setup_enabled: true,
 
       # Deviations from standard newScoreRepo settings:
       allow_merge_commit: true,
@@ -687,6 +681,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('bazel_platforms', subcategory = "toolchains") {
       description: "Bazel platform definitions used by S-CORE modules",
+      code_scanning_default_setup_enabled: true,
     },
 
     newScoreRepo('process_description', pages = true, category = "general") {
@@ -709,6 +704,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('reference_integration', true, subcategory = "integration") {
       description: "Score project integration repository",
+      code_scanning_default_setup_enabled: false,
+
+      # It runs its own advanced multi-repo CodeQL workflow; default setup must stay disabled
+      # regardless of the active_languages list above.
+
       topics+: [
         "integration",
       ],
@@ -760,10 +760,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('os_images', false, subcategory = "integration") {
       description: "OS Images for testing and deliveries",
+      code_scanning_default_setup_enabled: true,
     },
 
     newScoreRepo('score', pages = true, category = "general") {
       description: "Score project main repository",
+      code_scanning_default_setup_enabled: true,
 
       # Deviations from standard newScoreRepo settings:
       allow_rebase_merge: true,
@@ -773,13 +775,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       code_scanning_default_languages+: [
         "actions",
       ],
-      code_scanning_default_setup_enabled: true,
       has_discussions: true,
       has_wiki: true,
     },
 
     newInfrastructureTeamRepo('tooling') {
       description: "Tooling for Eclipse S-CORE",
+      code_scanning_default_setup_enabled: true,
+
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/tooling/latest/",
       allow_rebase_merge: true,
@@ -817,6 +820,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('tools') {
       description: "Home of score-tools, the new pypi based tools approach",
+      code_scanning_default_setup_enabled: true,
+
       environments+: [
         orgs.newEnvironment('copilot'),
         pypi_infra_env,
@@ -825,6 +830,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('sbom-tool') {
       description: "Home of the SBOM generation tool",
+      code_scanning_default_setup_enabled: true,
+
       environments+: [
         orgs.newEnvironment('copilot'),
       ],
@@ -832,6 +839,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newDependableElementRepo('baselibs') {
       description: "base libraries including common functionality",
+      code_scanning_default_setup_enabled: false,
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
@@ -841,7 +849,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_rebase_merge: true,
       allow_merge_commit: true,
       allow_update_branch: true,
-      code_scanning_default_setup_enabled: false,
       has_discussions: true,
       rulesets: [
         orgs.newRepoRuleset('main') {
@@ -872,6 +879,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newDependableElementRepo('communication') {
       description: "Repository for the communication module LoLa",
+      code_scanning_default_setup_enabled: false,
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
@@ -889,7 +897,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "python",
         # "rust", # not yet supported by GH API: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#update-a-code-scanning-default-setup-configuration
       ],
-      code_scanning_default_setup_enabled: false,
       has_discussions: true,
       # Merge commits must contain the PR body for checklist evidence
       merge_commit_title: "PR_TITLE",
@@ -1005,11 +1012,15 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('rules_imagefs', subcategory = "integration") {
       description: "Repository for Image FileSystem Bazel rules and toolchains definitions",
+      code_scanning_default_setup_enabled: true,
+
       environments+: qnx_environments,
     },
 
     newInfrastructureTeamRepo('bazel_cpp_toolchains', subcategory = "toolchains") {
       description: "Bazel C/C++ toolchain configuration repository",
+      code_scanning_default_setup_enabled: true,
+
       environments+: qnx_environments,
       workflows+: {
         max_cache_size_gb: 50,
@@ -1018,19 +1029,25 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('toolchains_gcc_packages', subcategory = "toolchains") {
       description: "Bazel toolchains for GNU GCC",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('toolchains_rust', subcategory = "toolchains") {
       description: "Rust toolchains",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('ferrocene_toolchain_builder', subcategory = "toolchains") {
       description: "Builder for Ferrocene artifacts",
+      code_scanning_default_setup_enabled: true,
+
       environments+: qnx_environments,
     },
 
     newInfrastructureTeamRepo('module_template', pages = true) {
       description: "C++ & Rust Bazel Template Repository",
+      code_scanning_default_setup_enabled: true,
+
       is_template: true,
       workflows+: {
         max_cache_size_gb: 50,
@@ -1039,14 +1056,17 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('cicd-actions', subcategory = "automation") {
       description: "Reusable GitHub Actions for CI/CD automation",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('cicd-workflows', subcategory = "automation") {
       description: "Reusable GitHub Workflows for CI/CD automation",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('docs-as-code', pages = true, subcategory = "tooling") {
       description: "Docs-as-code tooling for Eclipse S-CORE",
+      code_scanning_default_setup_enabled: true,
 
       environments+: [
         orgs.newEnvironment('copilot'),
@@ -1058,6 +1078,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('coverage_tool', pages = true, subcategory = "tooling") {
       description: "LLVM source-based code coverage pipeline for Eclipse S-CORE (Bazel module score_coverage)",
+      code_scanning_default_setup_enabled: true,
+
       topics+: [
         "bazel",
         "code-coverage",
@@ -1101,6 +1123,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('score_rust_policies', subcategory = "toolchains") {
       description: "Centralized Rust linting and formatting policies for S-CORE, including safety-critical guidelines.",
+      code_scanning_default_setup_enabled: true,
+
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/score_rust_policies",
       topics+: [
@@ -1114,6 +1138,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('score_cpp_policies', subcategory = "toolchains") {
       description: "Centralized C++ quality tool policies for S-CORE, including sanitizer configurations and safety-critical guidelines.",
+      code_scanning_default_setup_enabled: true,
+
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/score_cpp_policies",
       topics+: [
@@ -1160,14 +1186,18 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('more-disk-space', subcategory = "automation") {
       description: "GitHub Action to make more disk space available in Ubuntu based GitHub Actions runners",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('apt-install', subcategory = "automation") {
       description: "GitHub Action to execute apt-install in a clever way",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('devcontainer', subcategory = "tooling") {
       description: "Common DevContainer for Eclipse S-CORE",
+      code_scanning_default_setup_enabled: true,
+
       delete_branch_on_merge: true,
       squash_merge_commit_title: "PR_TITLE",
       squash_merge_commit_message: "PR_BODY",
@@ -1191,6 +1221,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('dash-license-scan', subcategory = "tooling") {
       description: "pipx/uvx wrapper for the dash-licenses tool",
+      code_scanning_default_setup_enabled: true,
+
       environments+: [
         pypi_infra_env,
       ],
@@ -1198,10 +1230,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('infrastructure', true) {
       description: "All general information related to the development and integration infrastructure",
+      code_scanning_default_setup_enabled: true,
     },
 
     newInfrastructureTeamRepo('testing_tools', subcategory = "integration") {
       description: "Repository for testing utilities",
+      code_scanning_default_setup_enabled: true,
     },
 
     newDependableElementRepo('feo') {
@@ -1213,10 +1247,12 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
 
     newInfrastructureTeamRepo('os_autosd') {
+      description: 'Repository for the AutoSD Platform and associated Tooling',
+      code_scanning_default_setup_enabled: true,
+
       aliases: [
         "inc_os_autosd",
       ],
-      description: 'Repository for the AutoSD Platform and associated Tooling',
       gh_pages_build_type: "workflow",
       template_repository: "eclipse-score/module_template",
       homepage: "https://eclipse-score.github.io/os_autosd",
@@ -1238,8 +1274,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('bazel-tools-cc', subcategory = "toolchains") {
       description: "Repository for clang-tidy based static code checker",
-    }
-    + {
+      code_scanning_default_setup_enabled: true,
+
       template_repository: "eclipse-score/module_template" ,
       environments: [
         orgs.newEnvironment('github-pages') {
@@ -1389,6 +1425,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newInfrastructureTeamRepo('qnx_unit_tests', subcategory = "testing") {
       description: "Infrastructure for running unit tests in QNX VMs",
+      code_scanning_default_setup_enabled: true,
 
       # Deviations from standard newInfrastructureTeamRepo settings:
       allow_merge_commit: true,
