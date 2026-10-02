@@ -221,6 +221,7 @@ local newInfrastructureTeamRepo(name, pages = false, subcategory = null) =
   newScoreRepo(name, pages = pages, category = "infrastructure", subcategory = subcategory)
   {
     code_scanning_default_languages+: std.get(active_languages, name, []),
+    has_projects: true,
   };
 
 # Publication to pypi can only be triggered by infrastructure-maintainers and only from main branch or tag
@@ -577,6 +578,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
       # Deviations from standard dependable element repository settings:
       template_repository: null,
+      has_projects: true,
       allow_update_branch: true,
       branch_protection_rules: [
         main_branch_protection_rule
