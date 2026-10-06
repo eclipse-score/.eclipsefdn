@@ -382,7 +382,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     orgs.newTeam('codeowner-baselibs') {
       members+: [
         "4og",
-        "antonkri"
+        "antonkri",
+        "fbaeuerle"
       ],
     },
     orgs.newTeam('codeowner-baselibs_rust') {
@@ -857,7 +858,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
           required_pull_request+: default_review_rule,
           bypass_actors+: [
-            "@eclipse-score/codeowner-baselibs",
+            "@eclipse-score/codeowner-baselibs:pull_request",
           ],
           allows_force_pushes: false,
           required_status_checks+: {
