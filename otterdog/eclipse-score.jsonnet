@@ -1355,6 +1355,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Incubation repository for Security & Cryptography feature",
     },
 
+    newScoreRepo('openssl') {
+      description: "Bazelification of OpenSSL for S-CORE",
+    },
+
     newDependableElementRepo('kyron') {
       description: "Safe async runtime for Rust",
 
