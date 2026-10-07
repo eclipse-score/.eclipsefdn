@@ -162,6 +162,7 @@ local qnx_enabled_repos = [
     "baselibs",
     "bazel_cpp_toolchains",
     "communication",
+    "config_management",
     "ferrocene_toolchain_builder",
     "inc_security_crypto",
     "inc_someip_gateway",
@@ -177,7 +178,8 @@ local qnx_enabled_repos = [
     "scrample",
     "time",
     "toolchains_qnx",
-    "config_management",
+    "qnx_sdp",
+    "qnx_sdp_pkg",
 ];
 
 
