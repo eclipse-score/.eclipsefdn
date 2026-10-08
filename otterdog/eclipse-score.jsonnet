@@ -786,19 +786,33 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Tooling for Eclipse S-CORE",
       code_scanning_default_setup_enabled: true,
 
+      topics+: [
+        "safety-framework",
+        "safe-software-development",
+        "plantuml",
+        "parser",
+        "software-architectural-design",
+        "software-unit-design",
+      ],
+
       gh_pages_build_type: "workflow",
       homepage: "https://eclipse-score.github.io/tooling/latest/",
+      allow_merge_commit: true,
       allow_rebase_merge: true,
       environments+: [
         orgs.newEnvironment('copilot'),
       ],
       allow_update_branch: true,
+      # Merge commits must contain the PR body for checklist evidence
+      merge_commit_title: "PR_TITLE",
+      merge_commit_message: "PR_BODY",
       rulesets: [
         orgs.newRepoRuleset('main') {
           include_refs+: [
             "refs/heads/main"
           ],
           required_pull_request+: default_review_rule,
+          allows_force_pushes: false,
           required_status_checks+: {
             status_checks+: [
               "tooling_checks",
@@ -813,6 +827,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               # copyright-check calls an external reusable workflow, hence the "caller / callee" job name
               "copyright-check / copyright-check",
             ],
+          },
+          required_merge_queue: orgs.newMergeQueue() {
+            merge_method: "MERGE",
+            status_check_timeout: 120,
           },
         },
       ],
@@ -888,7 +906,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       template_repository: null,
       gh_pages_build_type: "workflow",
       has_projects: true,
-      homepage: null,
+      homepage: "https://eclipse-score.github.io/communication/",
+      topics+: [
+        "ipc",
+        "shared-memory",
+        "cpp",
+        "cpp17",
+      ],
       dependabot_security_updates_enabled: false,
       allow_rebase_merge: true,
       allow_merge_commit: true,
