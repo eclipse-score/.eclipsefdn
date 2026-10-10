@@ -1491,7 +1491,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_forking: false,
       team_permissions+: {
         "automotive-score-committers": "push",
-        "automotive-score-contributors": "push",
       },
     },
 
