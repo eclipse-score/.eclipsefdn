@@ -381,6 +381,13 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "LittleHuba"
       ],
     },
+    orgs.newTeam('codeowner-rules-score') {
+      members+: [
+        "castler",
+        "hoe-jo",
+        "LittleHuba"
+      ],
+    },
     orgs.newTeam('codeowner-baselibs') {
       members+: [
         "4og",
@@ -812,6 +819,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "refs/heads/main"
           ],
           required_pull_request+: default_review_rule,
+          bypass_actors+: [
+            "@eclipse-score/codeowner-rules-score:pull_request",
+          ],
           allows_force_pushes: false,
           required_status_checks+: {
             status_checks+: [
