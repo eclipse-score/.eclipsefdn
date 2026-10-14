@@ -1392,6 +1392,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "Incubation repository for Security & Cryptography feature",
     },
 
+    newDependableElementRepo('ai_platform') {
+      aliases: [
+        "inc_ai_platform",
+      ],
+      archived: false,
+      description: "Repository for AI platform feature",
+    },
+
     newScoreRepo('openssl') {
       description: "Bazelification of OpenSSL for S-CORE",
     },
@@ -1731,11 +1739,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     newDependableElementRepo('inc_abi_compatible_datatypes') {
       archived: true,
       description: "Incubation repository for ABI compatible data types feature",
-    },
-
-    newDependableElementRepo('inc_ai_platform') {
-      archived: true,
-      description: "Incubation repository for AI platform feature",
     },
 
     newDependableElementRepo('inc_gen_ai') {
