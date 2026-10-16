@@ -412,6 +412,16 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
         "nradakovic",
       ],
     },
+    orgs.newTeam('qnx-sdp-pkg-maintainers') {
+      members+: [
+        "4og",
+        "AlexanderLanin",
+        "antonkri",
+        "dcalavrezo-qorix",
+        "MaximilianSoerenPollak",
+        "nradakovic",
+      ],
+    },
     orgs.newTeam('codeowner-kyron') {
       members+: [
         "pawelrutkaq",
@@ -1507,8 +1517,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       description: "QNX SDP artifacts",
       private: true,
       allow_forking: false,
-      team_permissions+: {
-        "automotive-score-committers": "push",
+      team_permissions: {
+        "qnx-sdp-pkg-maintainers": "push",
       },
     },
 
