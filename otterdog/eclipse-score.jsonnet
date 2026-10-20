@@ -1446,9 +1446,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       allow_update_branch: true,
       allow_rebase_merge: true,
 
-      branch_protection_rules: [
-        main_branch_protection_rule
-      ],
+      # The queue validates the combined result instead of requiring manual rebases.
+      branch_protection_rules: [],
       rulesets: [
           orgs.newRepoRuleset('main') {
             include_refs+: [
@@ -1457,6 +1456,25 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             required_pull_request+: default_review_rule,
             allows_force_pushes: false,
             requires_linear_history: true,
+            required_status_checks+: {
+              status_checks+: [
+                "build (x86_64-linux)",
+                "build (arm64-linux)",
+                "QNX merge queue result",
+                "run-comp-tests / Test Execution",
+                "code-coverage",
+                "docs-verify / Docs Verification",
+                "docs-build / Build Documentation",
+                "Format check (all languages)",
+                "copyright-check / copyright-check",
+                "bzlmod-lock / bzlmod-lockfile-check",
+                "bzlmod-lock / bzlmod-tidy-check",
+              ],
+            },
+            required_merge_queue: orgs.newMergeQueue() {
+              merge_method: "SQUASH",
+              status_check_timeout: 60,
+            },
           },
       ],
     },
