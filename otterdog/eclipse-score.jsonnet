@@ -1460,7 +1460,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
               status_checks+: [
                 "build (x86_64-linux)",
                 "build (arm64-linux)",
-                "QNX merge queue result",
                 "run-comp-tests / Test Execution",
                 "code-coverage",
                 "docs-verify / Docs Verification",
