@@ -984,18 +984,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           ],
         ),
       ],
-      webhooks+: [
-        orgs.newRepoWebhook('https://app.readthedocs.org/api/v2/webhook/score-communication/319863/') {
-          content_type: "json",
-          events+: [
-            "push",
-            "pull_request",
-            "create",
-            "delete"
-          ],
-          secret: "pass:bots/automotive.score/readthedocs.org/webhook_secret",
-        },
-      ],
       secrets: [
         orgs.newRepoSecret('UBUNTU_SNAPSHOT_MIRROR_URL') {
           value: "********",
