@@ -385,7 +385,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       members+: [
         "castler",
         "hoe-jo",
-        "LittleHuba"
+        "LittleHuba",
+        "melodyoncode"
       ],
     },
     orgs.newTeam('codeowner-baselibs') {
