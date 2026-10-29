@@ -1542,6 +1542,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
     newScoreRepo('contributor_training', category = "general") {
       description: "Contributor training for S-CORE",
+
+      # Participants copy it into their own account with "Use this template".
+      is_template: true,
     },
 
 
