@@ -492,6 +492,9 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     orgs.newOrgSecret('SCORE_BOT_CLASSIC_PAT') {
       value: "pass:bots/automotive.score/github.com/token-hd6722",
     },
+    orgs.newOrgSecret('SCORE_BOT_QNX_PKG_PAT') {
+      value: "pass:bots/automotive.score/github.com/token-hd8024",
+    },
     orgs.newOrgSecret('REPO_TOKEN_USERNAME') {
       value: "vault:automotive.score/repo.eclipse.org/token-username",
     },
