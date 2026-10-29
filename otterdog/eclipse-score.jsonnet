@@ -1540,6 +1540,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       },
     },
 
+    newScoreRepo('contributor_training', category = "general") {
+      description: "Contributor training for S-CORE",
+    },
+
 
     # ---- Archived repositories ----
 
