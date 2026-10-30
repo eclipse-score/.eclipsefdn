@@ -1146,6 +1146,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
 
     newScoreRepo("nlohmann_json", true) {
+        archived: true,
         aliases: [
           "inc_nlohmann_json",
         ],
