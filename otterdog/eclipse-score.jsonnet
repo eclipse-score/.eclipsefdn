@@ -170,6 +170,7 @@ local qnx_enabled_repos = [
     "kyron",
     "lifecycle",
     "logging",
+    "openssl",
     "orchestrator",
     "persistency",
     "qnx_unit_tests",
