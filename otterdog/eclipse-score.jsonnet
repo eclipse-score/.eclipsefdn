@@ -923,7 +923,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
 
     newDependableElementRepo('communication') {
-      description: "Repository for the communication module LoLa",
+      description: "Repository for the communication module (score::mw::com, score::memory::shared, score::message_passing)",
       code_scanning_default_setup_enabled: false,
 
       # Deviations from standard dependable element repository settings:
