@@ -162,6 +162,7 @@ local qnx_enabled_repos = [
     "baselibs",
     "bazel_cpp_toolchains",
     "communication",
+    "coverage_tool",
     "config_management",
     "ferrocene_toolchain_builder",
     "inc_security_crypto",
