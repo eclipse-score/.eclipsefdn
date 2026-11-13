@@ -179,6 +179,7 @@ local qnx_enabled_repos = [
     "scrample",
     "time",
     "toolchains_qnx",
+    "toolchains_rust",
     "qnx_sdp",
     "qnx_sdp_pkg",
 ];
