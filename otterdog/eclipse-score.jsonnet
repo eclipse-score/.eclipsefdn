@@ -1354,8 +1354,8 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           required_status_checks+: {
             status_checks+: [
               "Build Bazel Code",
-              "qnx-build (arm64-qnx) / Build QNX target",
-              "qnx-build (x86_64-qnx) / Build QNX target",
+              "qnx-build (score-qnx-aarch64) / Build QNX target",
+              "qnx-build (score-qnx-x86_64) / Build QNX target",
               "formatting-check / format-check",
               "copyright-check / copyright-check",
               "clang-tidy",
