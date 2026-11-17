@@ -1129,7 +1129,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
       allow_rebase_merge: true,
       allow_update_branch: true,
-      environments+: [
+      environments+: qnx_environments + [
         orgs.newEnvironment('copilot'),
       ],
       # Required status checks are added once the repository has its CI workflows.
