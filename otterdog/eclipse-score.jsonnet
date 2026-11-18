@@ -165,7 +165,7 @@ local qnx_enabled_repos = [
     "coverage_tool",
     "config_management",
     "ferrocene_toolchain_builder",
-    "inc_security_crypto",
+    "crypto",
     "inc_someip_gateway",
     "itf",
     "kyron",
@@ -1429,8 +1429,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newDependableElementRepo('inc_security_crypto') {
-      description: "Incubation repository for Security & Cryptography feature",
+    newDependableElementRepo('crypto') {
+      aliases: [
+        "inc_security_crypto",
+      ],
+      description: "Repository for cryptography feature",
     },
 
     newDependableElementRepo('ai_platform') {
