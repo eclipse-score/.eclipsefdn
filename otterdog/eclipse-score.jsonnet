@@ -185,6 +185,14 @@ local qnx_enabled_repos = [
     "qnx_sdp_pkg",
 ];
 
+# Repositories that use the shared Ubuntu snapshot mirror action (eclipse-score/cicd-actions/configure-ubuntu-snapshot-mirror).
+local ubuntu_snapshot_mirror_repos = [
+    "cicd-workflows",
+    "communication",
+    "logging",
+    "tooling",
+];
+
 
 # These requirements will store the QNX secrets.
 # For now, as stated above, these simply guard execution of selected workflows.
@@ -476,6 +484,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
     },
     orgs.newOrgSecret('SCORE_QNX_USER') {
       selected_repositories+: qnx_enabled_repos,
+      value: "********",
+      visibility: "selected",
+    },
+    orgs.newOrgSecret('UBUNTU_SNAPSHOT_MIRROR_URL') {
+      selected_repositories+: ubuntu_snapshot_mirror_repos,
       value: "********",
       visibility: "selected",
     },
@@ -990,11 +1003,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             "@eclipse-score/codeowner-lola",
           ],
         ),
-      ],
-      secrets: [
-        orgs.newRepoSecret('UBUNTU_SNAPSHOT_MIRROR_URL') {
-          value: "********",
-        },
       ],
     },
 
