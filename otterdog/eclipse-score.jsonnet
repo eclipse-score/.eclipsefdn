@@ -1315,21 +1315,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newInfrastructureTeamRepo('bazel-tools-cc', subcategory = "toolchains") {
-      description: "Repository for clang-tidy based static code checker",
-      code_scanning_default_setup_enabled: true,
-
-      template_repository: "eclipse-score/module_template" ,
-      environments: [
-        orgs.newEnvironment('github-pages') {
-          branch_policies+: [
-            "main"
-          ],
-          deployment_branch_policy: "selected",
-        },
-      ],
-    },
-
     newScoreRepo('mcp-servers') {
       description: "Repository for MCP servers",
     },
@@ -1581,6 +1566,22 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
 
     # ---- Archived repositories ----
+
+    newInfrastructureTeamRepo('bazel-tools-cc', subcategory = "toolchains") {
+      archived: true,
+      description: "Repository for clang-tidy based static code checker",
+      code_scanning_default_setup_enabled: true,
+
+      template_repository: "eclipse-score/module_template" ,
+      environments: [
+        orgs.newEnvironment('github-pages') {
+          branch_policies+: [
+            "main"
+          ],
+          deployment_branch_policy: "selected",
+        },
+      ],
+    },
 
     newInfrastructureTeamRepo('toolchains_gcc', subcategory = "toolchains") {
       archived: true,
