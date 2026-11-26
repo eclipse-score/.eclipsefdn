@@ -866,7 +866,7 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       },
     },
 
-    newInfrastructureTeamRepo('tools') {
+    newInfrastructureTeamRepo('tools', pages = true) {
       description: "Home of score-tools, the new pypi based tools approach",
       code_scanning_default_setup_enabled: true,
 
