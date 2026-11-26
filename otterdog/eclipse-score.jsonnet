@@ -1371,10 +1371,6 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
       ],
     },
 
-    newDependableElementRepo('scrample') {
-      description: "Repository for example component",
-    },
-
     newScoreRepo('dev_playground') {
       description: "Repository for developer tools and playground",
     },
@@ -1581,6 +1577,11 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
 
 
     # ---- Archived repositories ----
+
+    newDependableElementRepo('scrample') {
+      archived: true,
+      description: "Repository for example component",
+    },
 
     newInfrastructureTeamRepo('toolchains_gcc', subcategory = "toolchains") {
       archived: true,
