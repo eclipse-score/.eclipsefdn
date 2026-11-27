@@ -1353,14 +1353,14 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
           allows_force_pushes: false,
           required_status_checks+: {
             status_checks+: [
-              "Build Bazel Code",
+              "Build Bazel Code / Bazel",
               "qnx-build (score-qnx-aarch64) / Build QNX target",
               "qnx-build (score-qnx-x86_64) / Build QNX target",
               "formatting-check / format-check",
               "copyright-check / copyright-check",
-              "clang-tidy",
-              "Bazel Tests (asan_ubsan_lsan)",
-              "Bazel Tests (tsan)",
+              "clang-tidy / Bazel",
+              "Bazel Tests (asan_ubsan_lsan) / Bazel",
+              "Bazel Tests (tsan) / Bazel",
             ],
           },
           required_merge_queue: orgs.newMergeQueue() {
