@@ -1491,10 +1491,10 @@ orgs.newOrg('automotive.score', 'eclipse-score') {
             requires_linear_history: true,
             required_status_checks+: {
               status_checks+: [
-                "build (x86_64-linux)",
-                "build (arm64-linux)",
-                "run-comp-tests / Test Execution",
-                "code-coverage",
+                "build (x86_64-linux) / Bazel",
+                "build (arm64-linux) / Bazel",
+                "run-comp-tests / Bazel",
+                "code-coverage / Bazel",
                 "docs-verify / Docs Verification",
                 "docs-build / Build Documentation",
                 "Format check (all languages)",
